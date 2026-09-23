@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Env & secrets — never commit these (public repo is a submission requirement)
+.env
+.env.local
+.env.*
+!.env.example
+*-service-account*.json
+gcp-key.json
+
+# Local database
+*.db
+*.sqlite3
+*.sqlite
+*.db-shm
+*.db-wal
+
+# Citizens' photographs. Never committed — a public submission repo is the exact
+# opposite of "reachable only through the officials' console", and one accidental
+# commit of a real photo cannot be undone by deleting it in a later one.
+data/evidence/
+!data/evidence/.gitkeep
+
+# Large raw downloads (regenerate with data/scripts/fetch_reference.py)
+data/raw/*
+!data/raw/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Internal archives, audit dumps, and development prompts
+_archive_unwanted_files/
+FILE_STRUCTURE_INFORMATION.md
+JanSetu-*.md
+*.log
+.vscode/
+REPOSITORY_ORGANIZATION_REPORT.md
+EVENT_COMPLIANCE_REPORT.md
+docs/internal/CONTINUE_IN_CODE_MODE.md
+docs/channels/CONTINUE_CHANNELS.md

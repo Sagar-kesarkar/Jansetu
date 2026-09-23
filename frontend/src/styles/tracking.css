@@ -1,0 +1,926 @@
+/* ==========================================================================
+   Accountless tracking: the token receipt, the /track page, and the stepper.
+
+   Split into its own file rather than appended to components.css because these
+   three belong to one feature — the citizen's return visit — and keeping them
+   together makes the whole surface readable in one screen. Loaded after
+   components.css in main.jsx, so anything here that shares a name wins.
+   ========================================================================== */
+
+/* ==========================================================================
+   The acknowledgement card (citizen success screen).
+
+   Reading order is the argument: confirmation bar, then the citizen's own
+   sentence at the largest size on the page, then the token they must keep, then
+   the machine showing its work. Green throughout rather than the citizen
+   journey's saffron — saffron is the *call to action* accent here, and this card
+   is the one place on the site where nothing further is being asked of anyone.
+   ========================================================================== */
+
+.ack {
+  --ack-green: #1c6b4b;
+  --ack-tint: #f2f9f5;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+
+.ack__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--ack-green);
+  color: #fff;
+}
+
+.ack__bar-icon {
+  font-size: 25px;
+  flex: none;
+}
+
+.ack__bar-title {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ack__bar-rule {
+  width: 1px;
+  align-self: stretch;
+  margin: 2px 2px;
+  background: rgba(255, 255, 255, 0.32);
+  flex: none;
+}
+
+.ack__bar-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Pushed to the right and set in a pill because it is the *internal* reference —
+   useful to an officer reading over a shoulder, and deliberately quieter than
+   the tracking token, which is the number the citizen actually needs. */
+.ack__bar-ref {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 3px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+/* The trust moment, and the first thing the video shows: their words, in their
+   script, larger than anything else on the page. */
+.ack__native {
+  padding: 22px 22px 20px;
+  font-size: 20px;
+  line-height: 1.62;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* ---------- tracking token strip ----------
+   The token is the entire credential and there is no second copy of it: no
+   account to log back into, no email going out. If the citizen leaves this
+   screen without keeping it, the case becomes permanently unreachable to them.
+   That is why it is a strip of its own rather than a cell in the detail grid
+   between the sector and the urgency. */
+
+.token {
+  position: relative;
+  margin: 0 22px;
+}
+
+.token__strip {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--ack-tint);
+  border: 1px solid color-mix(in srgb, var(--ack-green) 16%, var(--rule-soft));
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.token__label {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  border-right: 1px solid color-mix(in srgb, var(--ack-green) 14%, var(--rule-soft));
+}
+
+/* Monospaced and widely tracked. The alphabet already excludes I, L, O, U, 0
+   and 1 so nothing in a token *can* be misread — but that only helps if the
+   glyphs are far enough apart to transcribe onto paper or read down a phone. */
+.token__value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 14px 12px;
+  font-family: var(--mono);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ack-green);
+  user-select: all;
+  white-space: nowrap;
+}
+
+.token__act,
+.token__info {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 15px;
+  border: 0;
+  border-left: 1px solid color-mix(in srgb, var(--ack-green) 14%, var(--rule-soft));
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-2);
+  white-space: nowrap;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+/* Width is pinned so the label swap to the confirmation does not reflow the row
+   under the cursor that just clicked it. */
+.token__act {
+  min-width: 104px;
+  justify-content: center;
+}
+
+.token__act svg,
+.token__info svg {
+  font-size: 17px;
+  flex: none;
+}
+
+.token__act:hover,
+.token__info:hover {
+  background: color-mix(in srgb, var(--ack-green) 9%, transparent);
+  color: var(--ack-green);
+}
+
+.token__act--done,
+.token__act--done:hover {
+  color: var(--ack-green);
+  background: color-mix(in srgb, var(--ack-green) 13%, transparent);
+}
+
+.token__pop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 5;
+  width: min(300px, calc(100vw - 60px));
+  padding: 13px 15px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-2);
+}
+
+.token__pop strong {
+  display: block;
+  font-size: 13.5px;
+  margin-bottom: 5px;
+}
+
+.token__pop p {
+  font-size: 12.8px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.token__warn {
+  font-size: 12.5px;
+  color: var(--danger);
+  margin-top: 7px;
+}
+
+/* Off-layout rather than display:none — the execCommand fallback needs a live
+   selection, and a display:none element cannot be selected. */
+.token__shadow {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+/* ---------- the detail grid ---------- */
+
+.ack__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin: 16px 22px 0;
+  background: var(--rule-soft);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.ack__cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  background: var(--surface);
+}
+
+/* The icon is a recognition shortcut, not decoration: on the fourth report from
+   the same person, the droplet says "water" before the label is read. */
+.ack__cell-icon,
+.ack__panel-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ack-tint);
+  color: var(--ack-green);
+  font-size: 18px;
+}
+
+.ack__cell-text {
+  min-width: 0;
+}
+
+.ack__cell-key {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-bottom: 2px;
+}
+
+.ack__cell-val {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* ---------- planner summary / transcript ---------- */
+
+.ack__panel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 12px 22px 0;
+  padding: 13px 15px;
+  background: var(--ack-tint);
+  border-radius: var(--r);
+}
+
+.ack__panel-key {
+  font-size: 12.5px;
+  color: var(--ack-green);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.ack__panel-body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.ack__note {
+  margin: 12px 22px 0;
+  padding: 12px 15px;
+  border-radius: var(--r);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  background: #fdf9ef;
+  border: 1px solid color-mix(in srgb, var(--saffron) 22%, var(--rule-soft));
+}
+
+.ack__foot {
+  padding: 16px 22px 20px;
+}
+
+/* Outlined in the citizen accent rather than filled: filing again is offered,
+   not urged, and a solid orange button here competes with the green
+   confirmation it sits under. */
+.ack__again {
+  width: 100%;
+  padding: 13px;
+  border: 1.5px solid var(--saffron);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--saffron);
+  font-size: 15.5px;
+  font-weight: 700;
+  transition: background-color 140ms ease;
+}
+
+.ack__again:hover {
+  background: color-mix(in srgb, var(--saffron) 8%, var(--surface));
+}
+
+/* ---------- track status page ---------- */
+
+.track {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.track__head {
+  margin-bottom: 20px;
+}
+
+.track__title {
+  font-size: 29px;
+  margin-bottom: 7px;
+}
+
+.track__lede {
+  color: var(--ink-2);
+  font-size: 15px;
+  max-width: 56ch;
+}
+
+.track__form {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-1);
+  margin-bottom: 18px;
+}
+
+.track__label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.track__field {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+/* Monospaced input for the same reason the receipt is: someone is transcribing
+   from paper, or from memory of a phone call, and per-character alignment is
+   what lets them see where they have got to. */
+.track__input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  font-family: var(--mono);
+  font-size: 17px;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  text-transform: uppercase;
+}
+
+.track__input::placeholder {
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-3);
+}
+
+.track__input[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.track__submit {
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.track__submit:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.track__submit:disabled {
+  opacity: 0.55;
+}
+
+.track__help {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-top: 9px;
+}
+
+.track__help code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--rule-soft);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.track__error {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--danger);
+  border-left-width: 4px;
+  border-radius: var(--r-sm);
+  background: #fdf3f4;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-bottom: 18px;
+}
+
+.track__error strong {
+  color: var(--danger);
+  font-size: 14.5px;
+}
+
+/* A network failure is the platform's fault, not the citizen's, so it is toned
+   apart. Not a security distinction — the API deliberately refuses to make one
+   of those — it is so nobody retypes a token that was correct all along. */
+.track__error--network,
+.track__error--empty {
+  border-color: var(--rule);
+  background: #fdf9ef;
+}
+
+.track__error--network strong,
+.track__error--empty strong {
+  color: var(--saffron);
+}
+
+.track__retry {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 7px 13px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.track__busy {
+  padding: 26px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ink-3);
+  border: 1px dashed var(--rule);
+  border-radius: var(--r);
+}
+
+/* ---------- the result card ---------- */
+
+.tcard {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.tcard__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--rule-soft);
+  background: color-mix(in srgb, var(--accent) 4%, var(--surface));
+}
+
+.tcard__token {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  user-select: all;
+}
+
+.tcard__filed {
+  text-align: right;
+}
+
+.tcard__filed-val {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tcard__key {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.tcard__count {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+
+.tcard__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--rule-soft);
+  border-top: 1px solid var(--rule-soft);
+}
+
+.tcard__cell {
+  background: var(--surface);
+  padding: 13px 16px;
+}
+
+.tcard__val {
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.tcard__block {
+  padding: 16px 20px;
+  border-top: 1px solid var(--rule-soft);
+}
+
+.tcard__body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+/* Their own sentence, back. Someone who filed in Odia and is shown only an
+   English summary has no way to check they were understood — and confirming
+   that is most of why they came back to this page. */
+.tcard__native {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  margin-top: 8px;
+  padding-left: 11px;
+  border-left: 2px solid var(--rule);
+}
+
+.tcard__meta {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-top: 9px;
+}
+
+.tcard__block--reply {
+  background: #f6f9fa;
+}
+
+.tcard__pending {
+  font-size: 14px;
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+/* ---------- status stepper ---------- */
+
+.stepper {
+  padding: 20px 20px 4px;
+}
+
+.stepper__rail {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.stepper__step {
+  position: relative;
+  text-align: center;
+  padding: 0 4px;
+}
+
+/* The connector is drawn per step and coloured by that step's own state, so a
+   filled run of rungs reads as one continuous bar. It sits behind the dot,
+   whose opaque background covers the middle. */
+.stepper__step::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--rule);
+}
+
+.stepper__step:first-child::before {
+  left: 50%;
+}
+
+.stepper__step:last-child::before {
+  right: 50%;
+}
+
+.stepper__step--done::before {
+  background: var(--green);
+}
+
+.stepper__step--refused::before {
+  background: var(--danger);
+}
+
+/* An ended case's remaining rungs did not happen and will not. Dashed and faded
+   rather than drawn as ordinary pending rungs, which a citizen holding a written
+   refusal would read as "still waiting". */
+.stepper--ended .stepper__step--todo::before {
+  background: none;
+  border-top: 2px dashed var(--rule);
+}
+
+.stepper--ended .stepper__step--todo {
+  opacity: 0.5;
+}
+
+.stepper--ended .stepper__step--todo .stepper__dot {
+  border-style: dashed;
+}
+
+.stepper__dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  border: 2px solid var(--rule);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.stepper__step--done .stepper__dot {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+/* A refusal drawn in the same green as a repair would be the most misleading
+   thing this component could do, so the closing rung takes its colour from the
+   status rather than from having been reached. */
+.stepper__step--refused .stepper__dot {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+
+/* A ring rather than a colour change: the current rung is already filled, and
+   this says "here" without competing with reached-versus-unreached. */
+.stepper__step--now .stepper__dot {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 22%, transparent);
+}
+
+.stepper__step--refused.stepper__step--now .stepper__dot {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger) 22%, transparent);
+}
+
+.stepper__label {
+  display: block;
+  font-size: 11.5px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.stepper__step--done .stepper__label,
+.stepper__step--refused .stepper__label,
+.stepper__step--now .stepper__label {
+  color: var(--ink);
+}
+
+/* A reached rung can legitimately have no date: a status changed by an officer
+   who left no reply is dated nowhere in the record. The row is reserved anyway
+   so the labels stay on one baseline. */
+.stepper__when {
+  display: block;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  margin-top: 3px;
+  min-height: 13px;
+  font-family: var(--mono);
+}
+
+.stepper__now {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 11px 14px;
+  border-radius: var(--r-sm);
+  background: #f4fbf7;
+  border: 1px solid color-mix(in srgb, var(--green) 22%, var(--rule-soft));
+}
+
+.stepper__now--refused {
+  background: #fdf3f4;
+  border-color: color-mix(in srgb, var(--danger) 22%, var(--rule-soft));
+}
+
+.stepper__now-key {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+
+.stepper__now-val {
+  font-size: 15px;
+}
+
+/* ---------- phone width ---------- */
+
+@media (max-width: 640px) {
+  /* The strip becomes two rows: token above, actions below. Squeezing label +
+     token + Copy + ⓘ onto one 360px line drops the token to about 13px, which
+     defeats the entire reason it is monospaced. */
+  .token__strip {
+    flex-wrap: wrap;
+  }
+
+  .token__label {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--ack-green) 14%, var(--rule-soft));
+    padding: 9px 14px;
+    font-size: 12.5px;
+  }
+
+  .token__value {
+    flex: 1 0 100%;
+    font-size: 23px;
+    padding: 12px;
+    border-bottom: 1px solid color-mix(in srgb, var(--ack-green) 14%, var(--rule-soft));
+  }
+
+  .token__act {
+    flex: 1;
+    border-left: 0;
+    padding: 12px;
+  }
+
+  .token__info {
+    padding: 12px 16px;
+  }
+
+  .ack__bar {
+    flex-wrap: wrap;
+    gap: 8px 10px;
+  }
+
+  .ack__bar-rule {
+    display: none;
+  }
+
+  .ack__bar-sub {
+    order: 3;
+    flex: 1 0 100%;
+    font-size: 13px;
+  }
+
+  .ack__native {
+    font-size: 18px;
+    padding: 18px 16px 16px;
+  }
+
+  /* One column. Two 150px cells on a 360px screen wrap "3 · Affects daily life"
+     onto three lines each and the grid stops being scannable. */
+  .ack__grid {
+    grid-template-columns: 1fr;
+    margin: 14px 16px 0;
+  }
+
+  .token,
+  .ack__panel,
+  .ack__note,
+  .ack__foot {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .ack__foot {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .track__field {
+    flex-direction: column;
+  }
+
+  .track__submit {
+    width: 100%;
+  }
+
+  .tcard__filed {
+    text-align: left;
+  }
+
+  /* Five rungs will not fit legibly across a 360px screen, so the rail turns
+     vertical rather than shrinking the type below readable size. The connector
+     rotates with it. */
+  .stepper__rail {
+    grid-template-columns: 1fr;
+  }
+
+  .stepper__step {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    padding: 5px 0;
+  }
+
+  .stepper__step::before {
+    top: 0;
+    bottom: 0;
+    left: 13px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .stepper__step:first-child::before {
+    top: 50%;
+    left: 13px;
+  }
+
+  .stepper__step:last-child::before {
+    right: auto;
+    bottom: 50%;
+  }
+
+  /* The rail is vertical here, so the ended-case dash has to rotate with it —
+     a border-top on a 2px-wide connector renders as a single stub. */
+  .stepper--ended .stepper__step--todo::before {
+    border-top: 0;
+    border-left: 2px dashed var(--rule);
+  }
+
+  .stepper__dot {
+    margin: 0;
+  }
+
+  .stepper__label {
+    font-size: 13px;
+  }
+
+  .stepper__when {
+    margin-top: 0;
+  }
+}
+
+/* A manual re-read of the same token. Sits under the filing date because that is
+   the card's "when" corner: filed then, checked now. Understated on purpose — it
+   is a convenience for someone watching a case, not the card's main action. */
+.tcard__refresh {
+  margin-top: 6px;
+  padding: 3px 8px;
+  font: inherit;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.tcard__refresh:hover:not(:disabled) {
+  color: var(--saffron-ink, var(--ink-1));
+  border-color: currentColor;
+}
+
+.tcard__refresh:disabled {
+  opacity: 0.55;
+  cursor: default;
+}

@@ -1,0 +1,7 @@
+# Netlify serves the built files directly, so a request for /dashboard looks for a
+# file at that path, finds nothing, and 404s. This hands every unmatched path to
+# index.html and lets react-router resolve it client-side.
+#
+# Status 200, not 301: a redirect would change the URL in the address bar, and a
+# judge sharing a deep link to /recommendations should land on /recommendations.
+/*  /index.html  200

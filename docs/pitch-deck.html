@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JanSetu — Pitch Deck</title>
+<style>
+  /* ----------------------------------------------------------------------
+     JanSetu pitch deck — self-contained, no dependencies.
+     Navigate: → / ← / Space / click right or left third / dots.
+     Export:  Ctrl/Cmd+P → "Save as PDF" (one slide per page, landscape).
+     Visual language echoes the product: Georgia headlines ("a desk"),
+     saffron for citizens, teal for policy, slate for officials.
+  ---------------------------------------------------------------------- */
+  :root{
+    --ink:#14171c; --ink-2:#414855; --ink-3:#6b7382; --ink-4:#9aa1ad;
+    --paper:#faf8f4; --surface:#ffffff; --rule:#e3ded4; --rule-soft:#efeae1;
+    --accent:#1f4e79; --accent-soft:#eaf1f8;
+    --saffron:#c9691a; --saffron-soft:#fbeede;
+    --teal:#0f766e; --teal-soft:#e3f2ef;
+    --slate:#2a3442; --slate-soft:#e9ecf1;
+    --alarm:#a8202f; --alarm-soft:#fbedee;
+    --serif:Georgia,'Times New Roman','Nirmala UI','Noto Serif Devanagari',serif;
+    --sans:system-ui,-apple-system,'Segoe UI',Roboto,'Nirmala UI','Noto Sans Devanagari',sans-serif;
+    --mono:ui-monospace,'Cascadia Mono','SF Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:var(--sans); color:var(--ink); background:#0d0f12;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+
+  /* ---- deck frame ---- */
+  .deck{position:fixed; inset:0;}
+  .slide{
+    position:absolute; inset:0; display:none;
+    padding:6.2vh 7.5vw 8vh; background:var(--paper);
+    flex-direction:column; overflow:hidden;
+  }
+  .slide.is-active{display:flex; animation:fade .35s ease both}
+  @keyframes fade{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
+  /* colored top rail per section */
+  .slide::before{content:""; position:absolute; top:0; left:0; right:0; height:6px; background:var(--accent)}
+  .slide[data-accent="frame"]::before{background:linear-gradient(90deg,var(--saffron),var(--teal) 55%,var(--accent))}
+  .slide[data-accent="problem"]::before{background:var(--alarm)}
+  .slide[data-accent="build"]::before{background:var(--accent)}
+  .slide[data-accent="citizen"]::before{background:var(--saffron)}
+  .slide[data-accent="policy"]::before{background:var(--teal)}
+  .slide[data-accent="trust"]::before{background:var(--slate)}
+
+  .eyebrow{
+    font-size:13px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 18px;
+  }
+  .slide[data-accent="problem"] .eyebrow{color:var(--alarm)}
+  .slide[data-accent="citizen"] .eyebrow{color:var(--saffron)}
+  .slide[data-accent="policy"] .eyebrow{color:var(--teal)}
+  .slide[data-accent="trust"] .eyebrow{color:var(--slate)}
+  .slide[data-accent="frame"] .eyebrow{color:var(--saffron)}
+
+  h1,h2{font-family:var(--serif); font-weight:600; letter-spacing:-.015em; margin:0}
+  h2{font-size:clamp(30px,4.6vw,52px); line-height:1.06; max-width:20ch}
+  .lede{font-size:clamp(17px,1.7vw,21px); line-height:1.5; color:var(--ink-2); max-width:60ch; margin:20px 0 0}
+  .body{margin-top:auto; padding-top:34px}
+  strong{color:var(--ink); font-weight:700}
+  em{font-style:normal; color:var(--accent); font-weight:600}
+  .slide[data-accent="policy"] em{color:var(--teal)}
+  .slide[data-accent="citizen"] em{color:var(--saffron)}
+  .slide[data-accent="problem"] em{color:var(--alarm)}
+
+  /* footer chrome */
+  .foot{
+    position:absolute; left:7.5vw; right:7.5vw; bottom:3.4vh;
+    display:flex; align-items:center; justify-content:space-between;
+    font-size:12.5px; color:var(--ink-4); letter-spacing:.02em;
+  }
+  .foot .wm{font-family:var(--serif); font-weight:600; color:var(--ink-3); letter-spacing:0}
+  .foot .num{font-family:var(--mono); font-size:12px}
+
+  /* ---- reusable content blocks ---- */
+  .cols{display:grid; gap:26px; margin-top:6px}
+  .cols-3{grid-template-columns:repeat(3,1fr)}
+  .cols-2{grid-template-columns:1fr 1fr}
+  .card{
+    background:var(--surface); border:1px solid var(--rule); border-radius:12px;
+    padding:22px 22px 24px; box-shadow:0 1px 2px rgba(20,23,28,.05);
+  }
+  .card h3{margin:0 0 8px; font-size:18px; font-family:var(--serif); font-weight:600}
+  .card p{margin:0; font-size:14.5px; line-height:1.5; color:var(--ink-2)}
+  .card .tagk{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-4); display:block; margin-bottom:10px}
+  .card--saffron{border-top:3px solid var(--saffron)}
+  .card--teal{border-top:3px solid var(--teal)}
+  .card--slate{border-top:3px solid var(--slate)}
+
+  ul.clean{list-style:none; margin:0; padding:0; display:grid; gap:14px; max-width:64ch}
+  ul.clean li{position:relative; padding-left:26px; font-size:16.5px; line-height:1.45; color:var(--ink-2)}
+  ul.clean li::before{content:""; position:absolute; left:2px; top:9px; width:9px; height:9px; border-radius:2px; background:var(--accent)}
+  .slide[data-accent="problem"] ul.clean li::before{background:var(--alarm)}
+  .slide[data-accent="policy"] ul.clean li::before{background:var(--teal)}
+  .slide[data-accent="trust"] ul.clean li::before{background:var(--slate)}
+
+  /* numbered pipeline (horizontal) */
+  .pipe{display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-top:8px}
+  .step{background:var(--surface); border:1px solid var(--rule); border-radius:10px; padding:16px 14px 18px; position:relative}
+  .step .n{font-family:var(--mono); font-size:12px; font-weight:700; color:#fff; background:var(--accent); width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:12px}
+  .step h4{margin:0 0 6px; font-size:15px; font-family:var(--serif); font-weight:600}
+  .step p{margin:0; font-size:12.8px; line-height:1.4; color:var(--ink-3)}
+
+  /* vertical flow (slide 6) */
+  .flow{display:grid; gap:0; max-width:80ch}
+  .flow .fr{display:grid; grid-template-columns:150px 1fr; gap:22px; padding:15px 0; border-bottom:1px solid var(--rule-soft); align-items:baseline}
+  .flow .fr:last-child{border-bottom:none}
+  .flow .who{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-4)}
+  .flow .what{font-size:16.5px; line-height:1.5; color:var(--ink-2)}
+  .flow .fr:nth-child(1) .who{color:var(--saffron)}
+  .flow .fr:nth-child(2) .who{color:var(--accent)}
+  .flow .fr:nth-child(3) .who{color:var(--slate)}
+  .flow .fr:nth-child(4) .who{color:var(--teal)}
+
+  /* join diagram (slide 8) */
+  .join{display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:center; margin-top:4px}
+  .inputs{display:grid; gap:12px}
+  .inp{background:var(--surface); border:1px solid var(--rule); border-left:4px solid var(--teal); border-radius:8px; padding:13px 16px}
+  .inp b{display:block; font-size:15px; margin-bottom:2px}
+  .inp span{font-size:13px; color:var(--ink-3)}
+  .outbox{background:var(--teal); color:#fff; border-radius:14px; padding:30px; text-align:center; box-shadow:0 12px 28px -12px rgba(15,118,110,.7)}
+  .outbox .big{font-family:var(--serif); font-size:30px; font-weight:600; line-height:1.1}
+  .outbox p{margin:14px 0 0; font-size:14.5px; color:#d6efe9; line-height:1.5}
+
+  /* title slide */
+  .title-slide{justify-content:center; background:radial-gradient(1200px 700px at 78% 12%, #1b2430 0%, #14171c 55%, #0d0f12 100%); color:#f4f2ee}
+  .title-slide::before{height:0}
+  .title-wm{font-family:var(--serif); font-size:clamp(58px,10vw,120px); font-weight:600; letter-spacing:-.02em; line-height:.95; margin:0}
+  .title-wm .dev{display:block; font-size:.42em; color:#c9a15a; letter-spacing:.02em; margin-bottom:12px; font-weight:600}
+  .title-tag{margin:26px 0 0; font-size:clamp(18px,2vw,24px); line-height:1.5; max-width:52ch; color:#cfd4dc}
+  .title-tag em{color:#e6a94b; font-weight:600}
+  .title-meta{position:absolute; bottom:6vh; left:7.5vw; right:7.5vw; display:flex; gap:26px; flex-wrap:wrap; font-size:13px; color:#8b93a1; letter-spacing:.03em; border-top:1px solid #2b333f; padding-top:18px}
+  .title-meta span{display:flex; align-items:center; gap:8px}
+  .dot3{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+  /* closing slide */
+  .close-slide{justify-content:center; background:radial-gradient(1100px 650px at 22% 85%, #12312c 0%, #14171c 58%, #0d0f12 100%); color:#f4f2ee}
+  .close-slide::before{height:0}
+  .close-slide h2{font-size:clamp(38px,6vw,72px); max-width:18ch; color:#f4f2ee}
+  .close-slide .lede{color:#cfd4dc; max-width:58ch}
+  .close-slide .pillrow{display:flex; gap:12px; flex-wrap:wrap; margin-top:30px}
+  .pill{border:1px solid #38414e; color:#cbd2db; border-radius:100px; padding:9px 18px; font-size:13.5px; letter-spacing:.02em}
+  .pill b{color:#e6a94b}
+
+  /* progress + nav */
+  .progress{position:fixed; top:0; left:0; height:4px; background:var(--accent); z-index:30; transition:width .3s ease; width:0}
+  .dots{position:fixed; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:7px; z-index:30}
+  .dots button{width:8px; height:8px; border-radius:50%; border:none; padding:0; background:#3a4150; cursor:pointer; opacity:.5; transition:opacity .2s, transform .2s}
+  .dots button.on{opacity:1; background:#c9a15a; transform:scale(1.35)}
+  .hint{position:fixed; bottom:12px; right:16px; z-index:30; font-size:11.5px; color:#5b6472; font-family:var(--mono); letter-spacing:.03em; user-select:none}
+  .navzone{position:fixed; top:0; bottom:0; width:22vw; z-index:20; cursor:pointer}
+  .navzone.left{left:0} .navzone.right{right:0}
+
+  /* print → PDF: one slide per landscape page */
+  @media print{
+    @page{size:1280px 720px; margin:0}
+    body{overflow:visible; background:#fff}
+    .deck{position:static}
+    .slide{display:flex !important; position:relative; inset:auto; width:1280px; height:720px; page-break-after:always; animation:none}
+    .progress,.dots,.hint,.navzone{display:none !important}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide title-slide is-active" data-accent="frame">
+    <h1 class="title-wm"><span class="dev">जनसेतु</span>JanSetu</h1>
+    <p class="title-tag">A Digital Public Good that turns every citizen's voice —
+      <em>in any language, on any phone</em> — into development priorities the
+      government can act on.</p>
+    <div class="title-meta">
+      <span><i class="dot3" style="background:#c9691a"></i> Citizen intake</span>
+      <span><i class="dot3" style="background:#2a3442"></i> Officials' console</span>
+      <span><i class="dot3" style="background:#0f766e"></i> Policy analytics</span>
+      <span style="margin-left:auto">Voice · Text · WhatsApp · SMS · IVR</span>
+    </div>
+  </section>
+
+  <!-- 2 · PROBLEM -->
+  <section class="slide" data-accent="problem">
+    <p class="eyebrow">The problem</p>
+    <h2>The people who need the most ask the least.</h2>
+    <div class="body">
+      <ul class="clean">
+        <li>Governments can't <strong>consolidate</strong> what citizens need. Feedback is scattered across WhatsApp, phone calls, paper, and portals — in <strong>22+ official languages</strong>.</li>
+        <li>The feedback that does arrive is <strong>skewed</strong>: filing a complaint quietly assumes literacy, a smartphone, a portal, and the "right" language.</li>
+        <li>So the districts with the <em>greatest unmet need file the fewest requests</em> — and public investment ends up following the loudest, not the neediest.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3 · INSIGHT -->
+  <section class="slide" data-accent="problem">
+    <p class="eyebrow">Why now</p>
+    <h2>The barrier is the channel — not apathy.</h2>
+    <div class="body">
+      <ul class="clean">
+        <li>Hundreds of millions of Indians reach government by <strong>voice and feature phone</strong>, not web forms. A farmer in Nabarangpur sends a voice note in Odia — she doesn't fill in a portal.</li>
+        <li>AI can now <strong>transcribe, translate and understand</strong> that voice note as reliably as a typed form.</li>
+        <li>Remove the channel barrier and <em>the silent districts finally show up in the data</em>. That is the moment JanSetu is built for.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · SOLUTION -->
+  <section class="slide" data-accent="build">
+    <p class="eyebrow">The solution</p>
+    <h2>One platform, three surfaces.</h2>
+    <p class="lede">Raw human voice in one end; prioritized, evidence-backed public-investment guidance out the other.</p>
+    <div class="body">
+      <div class="cols cols-3">
+        <div class="card card--saffron">
+          <span class="tagk">For citizens · Intake</span>
+          <h3>Speak, don't fill in a form</h3>
+          <p>Submit in any language via voice, text, WhatsApp, SMS or IVR. No app, no login. Get a tracking token and a real reply.</p>
+        </div>
+        <div class="card card--slate">
+          <span class="tagk">For officials · Console</span>
+          <h3>One queue that's ready to act on</h3>
+          <p>Every request arrives structured, triaged, translated and located. Officers reply and update status in one place.</p>
+        </div>
+        <div class="card card--teal">
+          <span class="tagk">For policymakers · Analytics</span>
+          <h3>See where to build next</h3>
+          <p>Demand hotspots and ranked project recommendations across districts, grounded in citizen evidence + national data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · AI APPROACH -->
+  <section class="slide" data-accent="build">
+    <p class="eyebrow">The AI approach</p>
+    <h2>From a voice note to a structured record.</h2>
+    <p class="lede">A single Gemini pipeline runs on every request — the original is <strong>always preserved</strong> beside the machine's reading of it.</p>
+    <div class="body">
+      <div class="pipe">
+        <div class="step"><div class="n">1</div><h4>Transcribe</h4><p>Voice &amp; IVR calls become text.</p></div>
+        <div class="step"><div class="n">2</div><h4>Translate</h4><p>Any Indian language ↔ English.</p></div>
+        <div class="step"><div class="n">3</div><h4>Classify</h4><p>Sector + urgency (1–5), with a confidence score.</p></div>
+        <div class="step"><div class="n">4</div><h4>Locate</h4><p>Extract the place, match to the official LGD district code.</p></div>
+        <div class="step"><div class="n">5</div><h4>Triage</h4><p>Flag spam / tests / non-requests — kept, never deleted.</p></div>
+        <div class="step"><div class="n">6</div><h4>Summarize</h4><p>An English summary for officials.</p></div>
+      </div>
+      <p class="lede" style="margin-top:26px">Photos are analyzed for evidence, <em>described in words, then the image is discarded</em> — the description travels, the file does not.</p>
+    </div>
+  </section>
+
+  <!-- 6 · END TO END -->
+  <section class="slide" data-accent="build">
+    <p class="eyebrow">How it flows</p>
+    <h2>A dry borewell, end to end.</h2>
+    <div class="body">
+      <div class="flow">
+        <div class="fr"><div class="who">Citizen</div><div class="what">A woman sends a 20-second WhatsApp voice note in Odia: <em>"the borewell in ward 4 has been dry for three weeks."</em></div></div>
+        <div class="fr"><div class="who">JanSetu AI</div><div class="what">Transcribes and translates it, tags it <strong>Water supply · urgency 4</strong>, matches it to <strong>Nabarangpur district</strong>, and hands her a tracking token.</div></div>
+        <div class="fr"><div class="who">Official</div><div class="what">The Block Development Officer sees it in the console — in English, original Odia beside it — replies, and the reply is translated back into Odia.</div></div>
+        <div class="fr"><div class="who">Policy layer</div><div class="what">The request becomes one urgency-weighted data point in <strong>Nabarangpur's water-demand score</strong> — visible to national policymakers.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · WHO IT SERVES -->
+  <section class="slide" data-accent="build">
+    <p class="eyebrow">Who it serves</p>
+    <h2>Three audiences, one bridge.</h2>
+    <div class="body">
+      <div class="cols cols-3">
+        <div class="card card--saffron">
+          <span class="tagk">Citizens</span>
+          <h3>Anyone with a phone</h3>
+          <p>No literacy, smartphone or app assumed. Report in your own language and get a tracking token — and a reply you can understand.</p>
+        </div>
+        <div class="card card--slate">
+          <span class="tagk">Field officials</span>
+          <h3>BDOs, PHED engineers, ward officers</h3>
+          <p>A triaged, privacy-safe queue scoped to their area. Act and reply in one place — no PII to mishandle.</p>
+        </div>
+        <div class="card card--teal">
+          <span class="tagk">National policymakers</span>
+          <h3>Planners &amp; departments</h3>
+          <p>See where demand concentrates and what to fund next — recommendations backed by real citizen evidence, not guesswork.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · FEEDBACK → PRIORITIES -->
+  <section class="slide" data-accent="policy">
+    <p class="eyebrow">Feedback → funding priorities</p>
+    <h2>The join the country is missing.</h2>
+    <div class="body">
+      <div class="join">
+        <div class="inputs">
+          <div class="inp"><b>Citizen demand</b><span>Urgency-weighted — one emergency counts more than five routine reports.</span></div>
+          <div class="inp"><b>Demographics</b><span>Population, deprivation, literacy, connectivity.</span></div>
+          <div class="inp"><b>Infrastructure indices</b><span>Existing coverage per sector, per district.</span></div>
+          <div class="inp"><b>Public investment plans</b><span>What has already been allocated where.</span></div>
+        </div>
+        <div class="outbox">
+          <div class="big">Priority score</div>
+          <p>Demand hotspots on a map + a ranked "fund this next" list per district × sector.<br><br><strong style="color:#fff">Gaming-resistant:</strong> triaged junk never counts, and closing a case never lowers a district's need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · PRIVACY / TRUST -->
+  <section class="slide" data-accent="trust">
+    <p class="eyebrow">Privacy &amp; trust by design</p>
+    <h2>A public good has to earn trust first.</h2>
+    <div class="body">
+      <ul class="clean">
+        <li><strong>No PII is stored</strong> — no name, phone number, address, IP or device is ever kept.</li>
+        <li>Reporters are a <strong>one-way cryptographic pseudonym</strong>: you can link a person's own reports, but you can never recover the person.</li>
+        <li>Location is <strong>never stored finer than ward level</strong>; photos are analyzed, then discarded.</li>
+        <li>Officials see <em>honest state</em> — replies are marked "queued," never falsely shown as "delivered."</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 · DEPLOYABLE -->
+  <section class="slide" data-accent="build">
+    <p class="eyebrow">Why it's deployable</p>
+    <h2>Runs today, not someday.</h2>
+    <div class="body">
+      <div class="cols cols-2">
+        <div class="card">
+          <h3>Standards-based from day one</h3>
+          <p>Every request keys to the government's own <strong>LGD district codes</strong> — interoperable with existing systems, no bespoke mapping.</p>
+        </div>
+        <div class="card">
+          <h3>Channels plug in, core stays put</h3>
+          <p>WhatsApp, SMS and IVR arrive through <strong>adapters</strong>. Adding a channel doesn't touch the pipeline or the console.</p>
+        </div>
+        <div class="card">
+          <h3>No AI lock-in</h3>
+          <p>Gemini today, any capable model tomorrow. The AI layer is a <strong>swappable boundary</strong>, not a dependency.</p>
+        </div>
+        <div class="card">
+          <h3>Light footprint</h3>
+          <p><strong>SQLite for a pilot → Postgres for a state</strong>, same code. Open and self-hostable — no proprietary piece a state can't run.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · SCALE -->
+  <section class="slide" data-accent="build">
+    <p class="eyebrow">How it scales across India</p>
+    <h2>From one block to seven hundred districts.</h2>
+    <div class="body">
+      <ul class="clean">
+        <li><strong>The data model is already national.</strong> Because every request keys to an LGD code, "one district" and "all of India" are the same query.</li>
+        <li><strong>Language-agnostic.</strong> Adding a 12th — or 22nd — language is configuration, not a rewrite.</li>
+        <li><strong>State-scoped consoles.</strong> Each administration sees its own queue by default; the analytics roll up to the centre automatically.</li>
+        <li><strong>Federated by design.</strong> Pilot in one block, expand to a state, aggregate nationally — <em>no re-architecture at any step</em>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 12 · CLOSE -->
+  <section class="slide close-slide" data-accent="frame">
+    <p class="eyebrow" style="color:#e6a94b">The vision</p>
+    <h2>Every voice on the map.</h2>
+    <p class="lede">JanSetu makes the quietest districts visible — turning scattered, multilingual, spoken grievances into the evidence base for where India builds next.</p>
+    <div class="pillrow">
+      <span class="pill"><b>Open</b> &amp; self-hostable</span>
+      <span class="pill"><b>Privacy-first</b> by construction</span>
+      <span class="pill"><b>Standards-based</b> (LGD)</span>
+      <span class="pill"><b>Language-inclusive</b></span>
+    </div>
+    <p class="lede" style="margin-top:30px; font-family:var(--serif); font-size:22px; color:#e9d3a3">The bridge between what people need and what gets built.</p>
+  </section>
+
+</div>
+
+<!-- nav chrome -->
+<div class="navzone left" id="navL"></div>
+<div class="navzone right" id="navR"></div>
+<div class="dots" id="dots"></div>
+<div class="hint">← → to navigate · P to print</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const progress = document.getElementById('progress');
+  let i = 0;
+
+  slides.forEach((_, k) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', 'Go to slide ' + (k + 1));
+    b.addEventListener('click', () => go(k));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    // per-section progress-bar color
+    const accent = slides[i].dataset.accent;
+    const map = {problem:'#a8202f', policy:'#0f766e', trust:'#2a3442', citizen:'#c9691a', frame:'#c9a15a', build:'#1f4e79'};
+    progress.style.background = map[accent] || '#1f4e79';
+  }
+  function next(){ go(i + 1); }
+  function prev(){ go(i - 1); }
+
+  document.getElementById('navR').addEventListener('click', next);
+  document.getElementById('navL').addEventListener('click', prev);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown'){ e.preventDefault(); next(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); prev(); }
+    else if (e.key === 'Home'){ go(0); }
+    else if (e.key === 'End'){ go(slides.length - 1); }
+    else if (e.key === 'p' || e.key === 'P'){ window.print(); }
+  });
+  go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,519 @@
+/* ==========================================================================
+   JanSetu design tokens
+
+   Two audiences share this stylesheet: a citizen on a low-end phone and a
+   policy official on a desktop. The demo video cuts between them, so the two
+   journeys deliberately do not look alike — `[data-journey]` on the shell
+   reassigns the surface and accent tokens, and every component below reads
+   from tokens rather than hardcoding a colour.
+
+   The headings are set in a serif. That is a considered choice, not a default:
+   this is a document a government would act on, and a gazette-like serif reads
+   as civic rather than as another startup dashboard.
+   ========================================================================== */
+
+:root {
+  --ink: #16181d;
+  --ink-2: #454b57;
+  --ink-3: #6f7684;
+  --rule: #ddd8ce;
+  --rule-soft: #ece8e0;
+
+  --paper: #fbfaf7;
+  --surface: #ffffff;
+
+  --saffron: #c75b12;
+  --teal: #1b4b5a;
+  --green: #14684a;
+  --danger: #a8202f;
+
+  /* Reassigned per journey. */
+  --bg: var(--paper);
+  --accent: var(--teal);
+  --accent-ink: #ffffff;
+
+  --serif: Georgia, "Times New Roman", "Nirmala UI", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Nirmala UI", sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, monospace;
+
+  --r-sm: 6px;
+  --r: 10px;
+  --r-lg: 16px;
+
+  --shadow-1: 0 1px 2px rgba(22, 24, 29, 0.06), 0 1px 3px rgba(22, 24, 29, 0.05);
+  --shadow-2: 0 4px 6px -2px rgba(22, 24, 29, 0.07), 0 12px 24px -8px rgba(22, 24, 29, 0.14);
+
+  --wide: 1240px;
+}
+
+/* Citizen: warm, roomy, high-contrast. Built to be read at arm's length on a
+   phone in daylight, which is where most of these reports will come from. */
+[data-journey='citizen'] {
+  --bg: #fbf7f1;
+  --accent: var(--saffron);
+  --accent-ink: #ffffff;
+}
+
+/* Policy: cooler and denser. A different room, visibly. */
+[data-journey='policy'] {
+  --bg: #f2f5f7;
+  --accent: var(--teal);
+  --accent-ink: #ffffff;
+}
+
+/* ---------- reset ---------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Visible focus everywhere. A dashboard a government adopts has to be
+   keyboard-navigable, and the default outline is the accessible one. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ---------- shell ---------- */
+
+.shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  transition: background-color 200ms ease;
+}
+
+.masthead {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  z-index: 500; /* above Leaflet's panes, which start at 400 */
+}
+
+.masthead__inner {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 62px;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+/* The mark is a wide bridge inside a square, transparent-padded canvas, so a
+   38px box draws it at roughly 38x22 — deliberately close in height to the
+   22px serif name beside it rather than towering over it. */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.logo__img,
+.logo__svg {
+  display: block;
+}
+
+.wordmark__text {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.wordmark__name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.wordmark__native {
+  font-size: 15px;
+  color: var(--ink-3);
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.nav__link {
+  padding: 7px 13px;
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.nav__link:hover {
+  background: var(--rule-soft);
+  color: var(--ink);
+}
+
+.nav__link--active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.nav__link--active:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.nav__divider {
+  width: 1px;
+  height: 22px;
+  background: var(--rule);
+  margin: 0 6px;
+}
+
+.nav__group-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  padding-right: 2px;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+
+.main--narrow {
+  max-width: 680px;
+}
+
+.footer {
+  border-top: 1px solid var(--rule);
+  padding: 18px 20px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+.footer code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+
+/* ---------- page headers ---------- */
+
+.page-head {
+  margin-bottom: 22px;
+}
+
+.page-head__eyebrow {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 7px;
+}
+
+.page-head h1 {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.page-head__sub {
+  color: var(--ink-2);
+  font-size: 15px;
+  max-width: 62ch;
+}
+
+/* ---------- primitives ---------- */
+
+/* Visible to a screen reader, absent from the layout. Used for live regions that
+   announce an outcome — "Token copied" — where changing the visible button label
+   under the user's focus would be the wrong way to say it. `clip-path` rather
+   than `display:none`, which removes the element from the accessibility tree and
+   would defeat the point. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-1);
+}
+
+.card__pad {
+  padding: 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 15px;
+  font-weight: 600;
+  transition: filter 120ms ease, background-color 120ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--rule);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--rule-soft);
+  filter: none;
+}
+
+.btn--sm {
+  padding: 7px 13px;
+  font-size: 13.5px;
+}
+
+.btn--rec {
+  background: var(--danger);
+}
+
+.field {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.field__label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.field__hint {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-top: 5px;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 11px 12px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+}
+
+.textarea {
+  min-height: 132px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Citizen input carries the message itself, often in a script the reader is
+   reading closely. Bigger than a normal form field on purpose. */
+[data-journey='citizen'] .textarea {
+  font-size: 17px;
+}
+
+.select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ink-3) 50%),
+    linear-gradient(135deg, var(--ink-3) 50%, transparent 50%);
+  background-position: calc(100% - 17px) 51%, calc(100% - 12px) 51%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: var(--rule-soft);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.pill--score {
+  color: #fff;
+}
+
+.pill--warn {
+  background: #fdf0d5;
+  color: #7a4b06;
+}
+
+.pill--ok {
+  background: #e2f2ea;
+  color: var(--green);
+}
+
+.rule {
+  height: 1px;
+  background: var(--rule);
+  border: 0;
+  margin: 18px 0;
+}
+
+/* ---------- loading / empty / error ---------- */
+
+.state {
+  text-align: center;
+  padding: 44px 24px;
+  color: var(--ink-2);
+}
+
+.state__title {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.state__body {
+  font-size: 14px;
+  max-width: 46ch;
+  margin: 0 auto;
+}
+
+.state--error .state__title {
+  color: var(--danger);
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  margin: 0 auto 14px;
+  border: 2.5px solid var(--rule);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--rule-soft) 25%, #f7f5f1 50%, var(--rule-soft) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+  border-radius: var(--r-sm);
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner,
+  .skeleton {
+    animation-duration: 0s;
+  }
+}

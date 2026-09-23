@@ -1,0 +1,19 @@
+# Second Netlify site, separate from the citizen app.
+#
+# Two sites rather than one with a path prefix: the console and the citizen form
+# have different audiences and would eventually want different access rules, and
+# a single build serving both means a change to one redeploys the other.
+[build]
+  base    = "frontend-admin"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# React Router owns the URL space. Without this, a refresh on /requests/604
+# asks Netlify for a file that does not exist and returns its 404 page.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

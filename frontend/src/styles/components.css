@@ -1,0 +1,792 @@
+/* ==========================================================================
+   Component styles, split from base.css so the token layer stays readable.
+   ========================================================================== */
+
+/* ---------- citizen intake ---------- */
+
+.intake__mode {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: var(--rule-soft);
+  border-radius: var(--r-sm);
+  margin-bottom: 20px;
+}
+
+.intake__mode button {
+  flex: 1;
+  padding: 10px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.intake__mode button[aria-pressed='true'] {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+
+.recorder {
+  border: 1px dashed var(--rule);
+  border-radius: var(--r);
+  padding: 24px 20px;
+  text-align: center;
+  background: color-mix(in srgb, var(--accent) 3%, var(--surface));
+}
+
+.recorder__btn {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  font-size: 30px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  box-shadow: var(--shadow-2);
+}
+
+.recorder__btn--recording {
+  background: var(--danger);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(168, 32, 47, 0.42);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(168, 32, 47, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recorder__btn--recording {
+    animation: none;
+  }
+}
+
+.recorder__status {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.recorder__timer {
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.recorder__playback {
+  width: 100%;
+  margin-top: 14px;
+}
+
+/* ---------- intake result ---------- */
+
+.result {
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--green);
+  border-radius: var(--r);
+  background: var(--surface);
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+}
+
+.result__ack {
+  padding: 22px 20px;
+  background: #f4fbf7;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.result__ack-label {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
+/* The acknowledgement is the trust moment and the first thing the video shows.
+   It is set larger than anything else on the page, in the citizen's own script. */
+.result__ack-text {
+  font-size: 20px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.result__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 1px;
+  background: var(--rule-soft);
+}
+
+.result__cell {
+  background: var(--surface);
+  padding: 13px 16px;
+}
+
+.result__key {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-bottom: 3px;
+}
+
+.result__val {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.result__note {
+  padding: 13px 16px;
+  font-size: 13px;
+  color: var(--ink-2);
+  background: #fdf9ef;
+  border-top: 1px solid var(--rule-soft);
+}
+
+/* ---------- filters ---------- */
+
+.filters {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-1);
+}
+
+.filters .field {
+  margin: 0;
+  min-width: 190px;
+  flex: 1 1 190px;
+}
+
+.filters__count {
+  font-size: 13px;
+  color: var(--ink-3);
+  padding-bottom: 11px;
+  white-space: nowrap;
+}
+
+/* ---------- dashboard layout ---------- */
+
+.dash {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .dash {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.panel__head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--rule-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel__title {
+  font-family: var(--serif);
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
+.panel__note {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ---------- map ---------- */
+
+.map {
+  height: 500px;
+  width: 100%;
+}
+
+.map .leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: #eef1f3;
+  font-family: var(--sans);
+}
+
+/* OpenStreetMap's standard tiles carry a lot of colour that competes with the
+   score ramp. Desaturating the tile pane keeps the free OSM basemap (no billed
+   Maps API, no key) while letting the data read as the foreground. */
+.map .leaflet-tile-pane {
+  filter: grayscale(0.92) brightness(1.06) contrast(0.94);
+}
+
+.map .leaflet-popup-content-wrapper {
+  border-radius: var(--r-sm);
+}
+
+.map .leaflet-popup-content {
+  margin: 11px 13px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.mappop__name {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mappop__state {
+  color: var(--ink-3);
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+
+.mappop__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.mappop__row dt {
+  color: var(--ink-3);
+}
+
+.mappop__row dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 11px 18px;
+  border-top: 1px solid var(--rule-soft);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend__swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* ---------- hotspot table ---------- */
+
+.tablewrap {
+  max-height: 500px;
+  overflow: auto;
+}
+
+.dtable {
+  font-size: 13.5px;
+}
+
+.dtable th {
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  text-align: left;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  font-weight: 700;
+  padding: 0;
+  border-bottom: 1px solid var(--rule);
+  z-index: 1;
+}
+
+.dtable th button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dtable th button:hover {
+  background: var(--rule-soft);
+  color: var(--ink);
+}
+
+.dtable th--num button {
+  justify-content: flex-end;
+}
+
+.dtable td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: middle;
+}
+
+.dtable td--num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.dtable tbody tr {
+  cursor: pointer;
+}
+
+.dtable tbody tr:hover {
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+}
+
+.dtable tbody tr[aria-selected='true'] {
+  background: color-mix(in srgb, var(--accent) 11%, var(--surface));
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.dtable__district {
+  font-weight: 600;
+}
+
+.dtable__state {
+  color: var(--ink-3);
+  font-size: 12px;
+}
+
+.sortcue {
+  color: var(--accent);
+  font-size: 10px;
+}
+
+/* ---------- priority cards ---------- */
+
+.reclist {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rec {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+.rec--open {
+  box-shadow: var(--shadow-2);
+}
+
+.rec__top {
+  display: flex;
+  gap: 16px;
+  padding: 18px 20px;
+  align-items: flex-start;
+}
+
+.rec__rank {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.rec__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.rec__title {
+  font-size: 17.5px;
+  margin-bottom: 5px;
+}
+
+.rec__where {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  margin-bottom: 9px;
+}
+
+.rec__tags {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.rec__score {
+  flex: none;
+  text-align: right;
+}
+
+.rec__score-num {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rec__score-lbl {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+
+.rec__rationale {
+  padding: 0 20px 16px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.rec__actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px 18px;
+  flex-wrap: wrap;
+}
+
+/* ---------- the evidence panel ----------
+   The most important component in the app: it is what makes the ranking
+   auditable instead of a black box, and the demo script pauses on it. Laid out
+   as a labelled breakdown with the weights visible, never a JSON dump. */
+
+.ev {
+  border-top: 1px solid var(--rule);
+  background: #fafbfc;
+  padding: 20px;
+}
+
+.ev__lead {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+
+.ev__section {
+  margin-bottom: 22px;
+}
+
+.ev__section:last-child {
+  margin-bottom: 0;
+}
+
+.ev__h {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--ink-3);
+  margin-bottom: 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ev__h::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule-soft);
+}
+
+.ev__metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+  gap: 12px;
+}
+
+.ev__metric {
+  background: var(--surface);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--r-sm);
+  padding: 11px 13px;
+}
+
+.ev__metric-k {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+
+.ev__metric-v {
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.ev__metric-sub {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  margin-top: 3px;
+}
+
+/* The participation adjustment gets its own block with the sentence attached,
+   because that sentence is the pitch. */
+.ev__participation {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: #fff8ec;
+  border: 1px solid #f0dcb8;
+  border-radius: var(--r-sm);
+  padding: 15px 17px;
+}
+
+.ev__participation-x {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: #8a5405;
+  line-height: 1;
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.ev__participation-say {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #6b4405;
+}
+
+.ev__formula {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  background: var(--surface);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--r-sm);
+  padding: 9px 12px;
+  margin-top: 12px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* score composition bars */
+.comp {
+  display: grid;
+  gap: 10px;
+}
+
+.comp__row {
+  display: grid;
+  grid-template-columns: 128px 1fr 92px;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.comp__name {
+  color: var(--ink-2);
+}
+
+.comp__weight {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+.comp__track {
+  height: 9px;
+  background: var(--rule-soft);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.comp__fill {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.comp__nums {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+
+.comp__contrib {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.comp__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid var(--rule);
+  margin-top: 12px;
+  padding-top: 11px;
+  font-size: 13px;
+}
+
+.comp__total-v {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- policy brief ---------- */
+
+.brief {
+  border-top: 1px solid var(--rule);
+  padding: 18px 20px;
+  background: var(--surface);
+}
+
+.brief__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-weight: 700;
+  color: var(--ink-3);
+  margin-bottom: 11px;
+}
+
+.brief__body p {
+  font-size: 14.5px;
+  line-height: 1.7;
+  margin-bottom: 11px;
+}
+
+.brief__body p:last-child {
+  margin-bottom: 0;
+}
+
+.brief__caveat {
+  margin-top: 13px;
+  padding-top: 11px;
+  border-top: 1px dashed var(--rule);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ---------- capability strip ---------- */
+
+.caps {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  margin-bottom: 20px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 640px) {
+  .main {
+    padding: 20px 15px 48px;
+  }
+
+  .page-head h1 {
+    font-size: 25px;
+  }
+
+  .masthead__inner {
+    padding: 8px 15px;
+    min-height: 0;
+    gap: 10px;
+  }
+
+  .nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
+  .nav__group-label {
+    display: none;
+  }
+
+  .rec__top {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 15px;
+  }
+
+  .rec__score {
+    text-align: left;
+  }
+
+  .comp__row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .comp__nums {
+    text-align: left;
+  }
+
+  .ev,
+  .rec__rationale,
+  .rec__actions {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .map {
+    height: 340px;
+  }
+
+  .result__ack-text {
+    font-size: 18px;
+  }
+}

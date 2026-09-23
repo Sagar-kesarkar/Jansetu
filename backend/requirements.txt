@@ -1,0 +1,28 @@
+# Everything here is open source and free to run.
+#
+# Versions are current as of Aug 2026 and carry prebuilt wheels for CPython
+# 3.12 (the Dockerfile base) through 3.14, so `pip install -r` needs no C or
+# Rust toolchain on any supported interpreter.
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.4
+pydantic-settings==2.15.0
+python-multipart==0.0.32
+SQLAlchemy==2.0.52
+
+# Google AI — mandatory integration. google-genai talks to the Gemini API,
+# which has a free tier via an AI Studio key (no billing account needed).
+google-genai==2.19.0
+
+# Data / analytics
+# No pandas/numpy on purpose: app/analytics/ is pure stdlib Python over
+# dataclasses (constraint 3), so the scoring path has no numeric-stack
+# dependency to audit — and the backend installs on any Python without a
+# C toolchain.
+rapidfuzz==3.14.5
+
+# Tests & Migrations
+pytest==9.1.1
+httpx==0.28.1
+alembic==1.19.1
+requests>=2.31.0

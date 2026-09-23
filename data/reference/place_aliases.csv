@@ -1,0 +1,750 @@
+alias,district_code,kind
+বৰপেটা,AS_BARPETA,native
+बारपेटा,AS_BARPETA,native
+barpeta road,AS_BARPETA,city
+howly,AS_BARPETA,city
+sarthebari,AS_BARPETA,city
+ধুবুৰী,AS_DHUBRI,native
+धुबरी,AS_DHUBRI,native
+gauripur,AS_DHUBRI,city
+bilasipara,AS_DHUBRI,city
+নগাঁও,AS_NAGAON,native
+नगांव,AS_NAGAON,native
+nowgong,AS_NAGAON,alt_name
+hojai,AS_NAGAON,city
+kaliabor,AS_NAGAON,tehsil
+सीतामढ़ी,BR_SITAMARHI,native
+dumra,BR_SITAMARHI,city
+pupri,BR_SITAMARHI,tehsil
+belsand,BR_SITAMARHI,tehsil
+अररिया,BR_ARARIA,native
+forbesganj,BR_ARARIA,city
+jokihat,BR_ARARIA,tehsil
+raniganj,BR_ARARIA,tehsil
+पूर्णिया,BR_PURNIA,native
+purnea,BR_PURNIA,alt_name
+banmankhi,BR_PURNIA,tehsil
+dhamdaha,BR_PURNIA,tehsil
+नंदुरबार,MH_NANDURBAR,native
+shahada,MH_NANDURBAR,city
+taloda,MH_NANDURBAR,tehsil
+akkalkuwa,MH_NANDURBAR,tehsil
+navapur,MH_NANDURBAR,tehsil
+गडचिरोली,MH_GADCHIROLI,native
+aheri,MH_GADCHIROLI,tehsil
+etapalli,MH_GADCHIROLI,tehsil
+chamorshi,MH_GADCHIROLI,tehsil
+उस्मानाबाद,MH_OSMANABAD,native
+dharashiv,MH_OSMANABAD,alt_name
+धाराशिव,MH_OSMANABAD,native
+tuljapur,MH_OSMANABAD,city
+naldurg,MH_OSMANABAD,city
+umarga,MH_OSMANABAD,tehsil
+ராமநாதபுரம்,TN_RAMANATHAPURAM,native
+ramnad,TN_RAMANATHAPURAM,alt_name
+rameswaram,TN_RAMANATHAPURAM,city
+paramakudi,TN_RAMANATHAPURAM,city
+mudukulathur,TN_RAMANATHAPURAM,tehsil
+பெரம்பலூர்,TN_PERAMBALUR,native
+kunnam,TN_PERAMBALUR,tehsil
+veppanthattai,TN_PERAMBALUR,tehsil
+விழுப்புரம்,TN_VILLUPURAM,native
+vilupuram,TN_VILLUPURAM,alt_name
+tindivanam,TN_VILLUPURAM,city
+gingee,TN_VILLUPURAM,city
+kallakurichi,TN_VILLUPURAM,city
+କାଳାହାଣ୍ଡି,OD_KALAHANDI,native
+bhawanipatna,OD_KALAHANDI,city
+junagarh,OD_KALAHANDI,tehsil
+dharamgarh,OD_KALAHANDI,tehsil
+ନବରଙ୍ଗପୁର,OD_NABARANGPUR,native
+nowrangpur,OD_NABARANGPUR,alt_name
+nabarangapur,OD_NABARANGPUR,alt_name
+umerkote,OD_NABARANGPUR,city
+papadahandi,OD_NABARANGPUR,tehsil
+କୋରାପୁଟ,OD_KORAPUT,native
+jeypore,OD_KORAPUT,city
+sunabeda,OD_KORAPUT,city
+damanjodi,OD_KORAPUT,city
+बाड़मेर,RJ_BARMER,native
+balotra,RJ_BARMER,city
+baytu,RJ_BARMER,tehsil
+chohtan,RJ_BARMER,tehsil
+जालोर,RJ_JALORE,native
+jalor,RJ_JALORE,alt_name
+bhinmal,RJ_JALORE,city
+sanchore,RJ_JALORE,city
+बांसवाड़ा,RJ_BANSWARA,native
+kushalgarh,RJ_BANSWARA,tehsil
+bagidora,RJ_BANSWARA,tehsil
+পুরুলিয়া,WB_PURULIA,native
+puruliya,WB_PURULIA,alt_name
+raghunathpur,WB_PURULIA,city
+jhalda,WB_PURULIA,city
+মালদা,WB_MALDA,native
+maldah,WB_MALDA,alt_name
+english bazar,WB_MALDA,city
+old malda,WB_MALDA,city
+chanchal,WB_MALDA,tehsil
+মুর্শিদাবাদ,WB_MURSHIDABAD,native
+berhampore,WB_MURSHIDABAD,city
+baharampur,WB_MURSHIDABAD,alt_name
+jangipur,WB_MURSHIDABAD,city
+domkal,WB_MURSHIDABAD,city
+ಯಾದಗಿರಿ,KA_YADGIR,native
+yadagiri,KA_YADGIR,alt_name
+shorapur,KA_YADGIR,tehsil
+shahapur,KA_YADGIR,tehsil
+ರಾಯಚೂರು,KA_RAICHUR,native
+raichoor,KA_RAICHUR,alt_name
+sindhanur,KA_RAICHUR,city
+manvi,KA_RAICHUR,tehsil
+devadurga,KA_RAICHUR,tehsil
+ಕೊಪ್ಪಳ,KA_KOPPAL,native
+kopal,KA_KOPPAL,alt_name
+gangavathi,KA_KOPPAL,city
+hospet road,KA_KOPPAL,locality
+yelburga,KA_KOPPAL,tehsil
+रायगड,MH_RAIGAD,native
+raigarh maharashtra,MH_RAIGAD,alt_name
+kolaba,MH_RAIGAD,alt_name
+alibag,MH_RAIGAD,city
+alibaug,MH_RAIGAD,alt_name
+panvel,MH_RAIGAD,city
+new panvel,MH_RAIGAD,locality
+ulwe,MH_RAIGAD,locality
+ulve,MH_RAIGAD,locality
+उलवे,MH_RAIGAD,native
+kharghar,MH_RAIGAD,locality
+kharghar node,MH_RAIGAD,locality
+खारघर,MH_RAIGAD,native
+kamothe,MH_RAIGAD,locality
+kalamboli,MH_RAIGAD,locality
+taloja,MH_RAIGAD,locality
+dronagiri,MH_RAIGAD,locality
+uran,MH_RAIGAD,city
+jnpt,MH_RAIGAD,locality
+karjat,MH_RAIGAD,city
+khopoli,MH_RAIGAD,city
+mahad,MH_RAIGAD,city
+pen,MH_RAIGAD,city
+roha,MH_RAIGAD,city
+matheran,MH_RAIGAD,city
+murud janjira,MH_RAIGAD,city
+shrivardhan,MH_RAIGAD,city
+mangaon,MH_RAIGAD,tehsil
+sudhagad,MH_RAIGAD,tehsil
+410206,MH_RAIGAD,pin
+410210,MH_RAIGAD,pin
+410218,MH_RAIGAD,pin
+402201,MH_RAIGAD,pin
+402301,MH_RAIGAD,pin
+410201,MH_RAIGAD,pin
+410203,MH_RAIGAD,pin
+ठाणे,MH_THANE,native
+thana,MH_THANE,alt_name
+navi mumbai,MH_THANE,city
+नवी मुंबई,MH_THANE,native
+vashi,MH_THANE,locality
+nerul,MH_THANE,locality
+belapur,MH_THANE,locality
+cbd belapur,MH_THANE,locality
+airoli,MH_THANE,locality
+ghansoli,MH_THANE,locality
+kopar khairane,MH_THANE,locality
+sanpada,MH_THANE,locality
+turbhe,MH_THANE,locality
+kalyan,MH_THANE,city
+dombivli,MH_THANE,city
+ulhasnagar,MH_THANE,city
+ambernath,MH_THANE,city
+badlapur,MH_THANE,city
+bhiwandi,MH_THANE,city
+mira road,MH_THANE,locality
+bhayandar,MH_THANE,city
+mumbra,MH_THANE,locality
+400601,MH_THANE,pin
+400602,MH_THANE,pin
+400703,MH_THANE,pin
+400706,MH_THANE,pin
+400614,MH_THANE,pin
+421301,MH_THANE,pin
+421201,MH_THANE,pin
+पुणे,MH_PUNE,native
+poona,MH_PUNE,alt_name
+pimpri,MH_PUNE,city
+chinchwad,MH_PUNE,city
+pimpri chinchwad,MH_PUNE,city
+hinjewadi,MH_PUNE,locality
+kothrud,MH_PUNE,locality
+kothrud pune,MH_PUNE,locality
+hadapsar,MH_PUNE,locality
+aundh,MH_PUNE,locality
+viman nagar,MH_PUNE,locality
+kharadi,MH_PUNE,locality
+wakad,MH_PUNE,locality
+baner,MH_PUNE,locality
+katraj,MH_PUNE,locality
+shivajinagar,MH_PUNE,locality
+baramati,MH_PUNE,city
+junnar,MH_PUNE,tehsil
+khed,MH_PUNE,tehsil
+lonavala,MH_PUNE,city
+411001,MH_PUNE,pin
+411004,MH_PUNE,pin
+411007,MH_PUNE,pin
+411014,MH_PUNE,pin
+411017,MH_PUNE,pin
+411028,MH_PUNE,pin
+411057,MH_PUNE,pin
+मुंबई,MH_MUMBAI_SUB,native
+mumbai,MH_MUMBAI_SUB,city
+bombay,MH_MUMBAI_SUB,alt_name
+mumbai suburban district,MH_MUMBAI_SUB,alt_name
+andheri,MH_MUMBAI_SUB,locality
+bandra,MH_MUMBAI_SUB,locality
+borivali,MH_MUMBAI_SUB,locality
+kurla,MH_MUMBAI_SUB,locality
+goregaon,MH_MUMBAI_SUB,locality
+malad,MH_MUMBAI_SUB,locality
+dahisar,MH_MUMBAI_SUB,locality
+jogeshwari,MH_MUMBAI_SUB,locality
+vile parle,MH_MUMBAI_SUB,locality
+santacruz,MH_MUMBAI_SUB,locality
+powai,MH_MUMBAI_SUB,locality
+chembur,MH_MUMBAI_SUB,locality
+ghatkopar,MH_MUMBAI_SUB,locality
+mulund,MH_MUMBAI_SUB,locality
+bhandup,MH_MUMBAI_SUB,locality
+kandivali,MH_MUMBAI_SUB,locality
+400050,MH_MUMBAI_SUB,pin
+400053,MH_MUMBAI_SUB,pin
+400064,MH_MUMBAI_SUB,pin
+400066,MH_MUMBAI_SUB,pin
+400070,MH_MUMBAI_SUB,pin
+400076,MH_MUMBAI_SUB,pin
+श्रावस्ती,UP_SHRAVASTI,native
+bhinga,UP_SHRAVASTI,city
+ikauna,UP_SHRAVASTI,tehsil
+jamunaha,UP_SHRAVASTI,tehsil
+बहराइच,UP_BAHRAICH,native
+bahraich city,UP_BAHRAICH,city
+nanpara,UP_BAHRAICH,city
+kaiserganj,UP_BAHRAICH,tehsil
+mihinpurwa,UP_BAHRAICH,tehsil
+लखनऊ,UP_LUCKNOW,native
+lucknow city,UP_LUCKNOW,city
+gomti nagar,UP_LUCKNOW,locality
+hazratganj,UP_LUCKNOW,locality
+aliganj,UP_LUCKNOW,locality
+indira nagar,UP_LUCKNOW,locality
+alambagh,UP_LUCKNOW,locality
+chinhat,UP_LUCKNOW,locality
+malihabad,UP_LUCKNOW,tehsil
+mohanlalganj,UP_LUCKNOW,tehsil
+226001,UP_LUCKNOW,pin
+226010,UP_LUCKNOW,pin
+226016,UP_LUCKNOW,pin
+अलीराजपुर,MP_ALIRAJPUR,native
+jobat,MP_ALIRAJPUR,city
+bhabra,MP_ALIRAJPUR,tehsil
+sondwa,MP_ALIRAJPUR,tehsil
+झाबुआ,MP_JHABUA,native
+thandla,MP_JHABUA,tehsil
+petlawad,MP_JHABUA,tehsil
+meghnagar,MP_JHABUA,city
+पाकुड़,JH_PAKUR,native
+pakaur,JH_PAKUR,alt_name
+maheshpur,JH_PAKUR,tehsil
+littipara,JH_PAKUR,tehsil
+साहिबगंज,JH_SAHIBGANJ,native
+sahebganj,JH_SAHIBGANJ,alt_name
+rajmahal,JH_SAHIBGANJ,city
+barharwa,JH_SAHIBGANJ,city
+बीजापुर,CG_BIJAPUR,native
+bhairamgarh,CG_BIJAPUR,tehsil
+bhopalpatnam,CG_BIJAPUR,tehsil
+usoor,CG_BIJAPUR,tehsil
+सुकमा,CG_SUKMA,native
+konta,CG_SUKMA,tehsil
+chhindgarh,CG_SUKMA,tehsil
+dornapal,CG_SUKMA,locality
+દાહોદ,GJ_DAHOD,native
+दाहोद,GJ_DAHOD,native
+dohad,GJ_DAHOD,alt_name
+devgadh baria,GJ_DAHOD,city
+jhalod,GJ_DAHOD,tehsil
+limkheda,GJ_DAHOD,tehsil
+સુરત,GJ_SURAT,native
+सूरत,GJ_SURAT,native
+adajan,GJ_SURAT,locality
+vesu,GJ_SURAT,locality
+katargam,GJ_SURAT,locality
+varachha,GJ_SURAT,locality
+udhna,GJ_SURAT,locality
+pandesara,GJ_SURAT,locality
+bardoli,GJ_SURAT,city
+olpad,GJ_SURAT,tehsil
+395001,GJ_SURAT,pin
+395007,GJ_SURAT,pin
+395009,GJ_SURAT,pin
+విజయనగరం,AP_VIZIANAGARAM,native
+vizianagram,AP_VIZIANAGARAM,alt_name
+bobbili,AP_VIZIANAGARAM,city
+parvathipuram,AP_VIZIANAGARAM,city
+salur,AP_VIZIANAGARAM,city
+gajapathinagaram,AP_VIZIANAGARAM,tehsil
+ఆదిలాబాద్,TG_ADILABAD,native
+adilabad town,TG_ADILABAD,city
+nirmal,TG_ADILABAD,city
+mancherial,TG_ADILABAD,city
+asifabad,TG_ADILABAD,city
+utnoor,TG_ADILABAD,tehsil
+హైదరాబాద్,TG_HYDERABAD,native
+हैदराबाद,TG_HYDERABAD,native
+secunderabad,TG_HYDERABAD,city
+charminar,TG_HYDERABAD,locality
+begumpet,TG_HYDERABAD,locality
+banjara hills,TG_HYDERABAD,locality
+jubilee hills,TG_HYDERABAD,locality
+ameerpet,TG_HYDERABAD,locality
+malakpet,TG_HYDERABAD,locality
+musheerabad,TG_HYDERABAD,locality
+nampally,TG_HYDERABAD,locality
+500001,TG_HYDERABAD,pin
+500016,TG_HYDERABAD,pin
+500034,TG_HYDERABAD,pin
+വയനാട്,KL_WAYANAD,native
+kalpetta,KL_WAYANAD,city
+mananthavady,KL_WAYANAD,city
+sulthan bathery,KL_WAYANAD,city
+sultan battery,KL_WAYANAD,alt_name
+meppadi,KL_WAYANAD,locality
+vythiri,KL_WAYANAD,tehsil
+പാലക്കാട്,KL_PALAKKAD,native
+palghat,KL_PALAKKAD,alt_name
+ottapalam,KL_PALAKKAD,city
+shoranur,KL_PALAKKAD,city
+mannarkkad,KL_PALAKKAD,city
+chittur,KL_PALAKKAD,city
+alathur,KL_PALAKKAD,tehsil
+attappadi,KL_PALAKKAD,locality
+678001,KL_PALAKKAD,pin
+ਮਾਨਸਾ,PB_MANSA,native
+मानसा,PB_MANSA,native
+budhlada,PB_MANSA,city
+sardulgarh,PB_MANSA,city
+jhunir,PB_MANSA,tehsil
+کپواڑہ,JK_KUPWARA,native
+कुपवाड़ा,JK_KUPWARA,native
+handwara,JK_KUPWARA,city
+langate,JK_KUPWARA,tehsil
+trehgam,JK_KUPWARA,locality
+kralpora,JK_KUPWARA,tehsil
+chennai,TN_CHENNAI,city
+madras,TN_CHENNAI,alt_name
+சென்னை,TN_CHENNAI,native
+t nagar,TN_CHENNAI,locality
+thyagaraya nagar,TN_CHENNAI,locality
+adyar,TN_CHENNAI,locality
+anna nagar,TN_CHENNAI,locality
+velachery,TN_CHENNAI,locality
+mylapore,TN_CHENNAI,locality
+guindy,TN_CHENNAI,locality
+egmore,TN_CHENNAI,locality
+kodambakkam,TN_CHENNAI,locality
+600001,TN_CHENNAI,pin
+600017,TN_CHENNAI,pin
+600020,TN_CHENNAI,pin
+coimbatore,TN_COIMBATORE,city
+kovai,TN_COIMBATORE,alt_name
+கோயம்புத்தூர்,TN_COIMBATORE,native
+gandhipuram,TN_COIMBATORE,locality
+peelamedu,TN_COIMBATORE,locality
+saibaba colony,TN_COIMBATORE,locality
+641001,TN_COIMBATORE,pin
+mumbai city,MH_MUMBAI_CITY,alt_name
+south mumbai,MH_MUMBAI_CITY,alt_name
+colaba,MH_MUMBAI_CITY,locality
+churchgate,MH_MUMBAI_CITY,locality
+marine lines,MH_MUMBAI_CITY,locality
+byculla,MH_MUMBAI_CITY,locality
+dadar,MH_MUMBAI_CITY,locality
+worli,MH_MUMBAI_CITY,locality
+parel,MH_MUMBAI_CITY,locality
+lower parel,MH_MUMBAI_CITY,locality
+malabar hill,MH_MUMBAI_CITY,locality
+girgaon,MH_MUMBAI_CITY,locality
+wadala,MH_MUMBAI_CITY,locality
+matunga,MH_MUMBAI_CITY,locality
+400001,MH_MUMBAI_CITY,pin
+400005,MH_MUMBAI_CITY,pin
+400012,MH_MUMBAI_CITY,pin
+nagpur,MH_NAGPUR,city
+नागपूर,MH_NAGPUR,native
+dharampeth,MH_NAGPUR,locality
+sitabuldi,MH_NAGPUR,locality
+hingna,MH_NAGPUR,tehsil
+440001,MH_NAGPUR,pin
+nashik,MH_NASHIK,city
+nasik,MH_NASHIK,alt_name
+नाशिक,MH_NASHIK,native
+panchavati,MH_NASHIK,locality
+gangapur road,MH_NASHIK,locality
+cidco nashik,MH_NASHIK,locality
+422001,MH_NASHIK,pin
+bengaluru,KA_BENGALURU_URBAN,city
+bangalore,KA_BENGALURU_URBAN,alt_name
+ಬೆಂಗಳೂರು,KA_BENGALURU_URBAN,native
+whitefield,KA_BENGALURU_URBAN,locality
+koramangala,KA_BENGALURU_URBAN,locality
+indiranagar,KA_BENGALURU_URBAN,locality
+jayanagar,KA_BENGALURU_URBAN,locality
+electronic city,KA_BENGALURU_URBAN,locality
+hsr layout,KA_BENGALURU_URBAN,locality
+marathahalli,KA_BENGALURU_URBAN,locality
+yelahanka,KA_BENGALURU_URBAN,tehsil
+560001,KA_BENGALURU_URBAN,pin
+560034,KA_BENGALURU_URBAN,pin
+560066,KA_BENGALURU_URBAN,pin
+new delhi,DL_NEW_DELHI,city
+नई दिल्ली,DL_NEW_DELHI,native
+connaught place,DL_NEW_DELHI,locality
+chanakyapuri,DL_NEW_DELHI,locality
+lodhi road,DL_NEW_DELHI,locality
+110001,DL_NEW_DELHI,pin
+central delhi,DL_CENTRAL_DELHI,city
+karol bagh,DL_CENTRAL_DELHI,locality
+paharganj,DL_CENTRAL_DELHI,locality
+chandni chowk,DL_CENTRAL_DELHI,locality
+daryaganj,DL_CENTRAL_DELHI,locality
+110002,DL_CENTRAL_DELHI,pin
+110005,DL_CENTRAL_DELHI,pin
+south delhi,DL_SOUTH_DELHI,city
+saket,DL_SOUTH_DELHI,locality
+hauz khas,DL_SOUTH_DELHI,locality
+greater kailash,DL_SOUTH_DELHI,locality
+malviya nagar,DL_SOUTH_DELHI,locality
+mehrauli,DL_SOUTH_DELHI,tehsil
+vasant kunj,DL_SOUTH_DELHI,locality
+110017,DL_SOUTH_DELHI,pin
+110048,DL_SOUTH_DELHI,pin
+north west delhi,DL_NORTH_WEST_DELHI,city
+rohini,DL_NORTH_WEST_DELHI,locality
+pitampura,DL_NORTH_WEST_DELHI,locality
+shalimar bagh,DL_NORTH_WEST_DELHI,locality
+narela,DL_NORTH_WEST_DELHI,tehsil
+110085,DL_NORTH_WEST_DELHI,pin
+kolkata,WB_KOLKATA,city
+calcutta,WB_KOLKATA,alt_name
+কলকাতা,WB_KOLKATA,native
+ballygunge,WB_KOLKATA,locality
+park street,WB_KOLKATA,locality
+behala,WB_KOLKATA,locality
+tollygunge,WB_KOLKATA,locality
+bhowanipore,WB_KOLKATA,locality
+700001,WB_KOLKATA,pin
+700019,WB_KOLKATA,pin
+ahmedabad,GJ_AHMEDABAD,city
+amdavad,GJ_AHMEDABAD,alt_name
+અમદાવાદ,GJ_AHMEDABAD,native
+maninagar,GJ_AHMEDABAD,locality
+naranpura,GJ_AHMEDABAD,locality
+bopal,GJ_AHMEDABAD,locality
+380001,GJ_AHMEDABAD,pin
+380015,GJ_AHMEDABAD,pin
+vadodara,GJ_VADODARA,city
+baroda,GJ_VADODARA,alt_name
+વડોદરા,GJ_VADODARA,native
+alkapuri,GJ_VADODARA,locality
+gotri,GJ_VADODARA,locality
+390001,GJ_VADODARA,pin
+jaipur,RJ_JAIPUR,city
+जयपुर,RJ_JAIPUR,native
+vaishali nagar,RJ_JAIPUR,locality
+mansarovar,RJ_JAIPUR,locality
+c scheme,RJ_JAIPUR,locality
+302001,RJ_JAIPUR,pin
+patna,BR_PATNA,city
+पटना,BR_PATNA,native
+kankarbagh,BR_PATNA,locality
+boring road,BR_PATNA,locality
+danapur,BR_PATNA,tehsil
+800001,BR_PATNA,pin
+bhopal,MP_BHOPAL,city
+भोपाल,MP_BHOPAL,native
+arera colony,MP_BHOPAL,locality
+kolar road,MP_BHOPAL,locality
+462001,MP_BHOPAL,pin
+indore,MP_INDORE,city
+इंदौर,MP_INDORE,native
+vijay nagar indore,MP_INDORE,locality
+palasia,MP_INDORE,locality
+452001,MP_INDORE,pin
+kanpur,UP_KANPUR_NAGAR,city
+कानपुर,UP_KANPUR_NAGAR,native
+govind nagar,UP_KANPUR_NAGAR,locality
+swaroop nagar,UP_KANPUR_NAGAR,locality
+208001,UP_KANPUR_NAGAR,pin
+visakhapatnam,AP_VISAKHAPATNAM,city
+vizag,AP_VISAKHAPATNAM,alt_name
+విశాఖపట్నం,AP_VISAKHAPATNAM,native
+gajuwaka,AP_VISAKHAPATNAM,locality
+madhurawada,AP_VISAKHAPATNAM,locality
+530001,AP_VISAKHAPATNAM,pin
+ernakulam,KL_ERNAKULAM,city
+kochi,KL_ERNAKULAM,city
+cochin,KL_ERNAKULAM,alt_name
+എറണാകുളം,KL_ERNAKULAM,native
+kakkanad,KL_ERNAKULAM,locality
+edappally,KL_ERNAKULAM,locality
+fort kochi,KL_ERNAKULAM,locality
+aluva,KL_ERNAKULAM,tehsil
+682001,KL_ERNAKULAM,pin
+682030,KL_ERNAKULAM,pin
+ludhiana,PB_LUDHIANA,city
+ਲੁਧਿਆਣਾ,PB_LUDHIANA,native
+model town ludhiana,PB_LUDHIANA,locality
+jamalpur,PB_LUDHIANA,locality
+141001,PB_LUDHIANA,pin
+ranchi,JH_RANCHI,city
+राँची,JH_RANCHI,native
+hinoo,JH_RANCHI,locality
+doranda,JH_RANCHI,locality
+harmu,JH_RANCHI,locality
+834001,JH_RANCHI,pin
+khordha,OD_KHORDHA,city
+khurda,OD_KHORDHA,alt_name
+bhubaneswar,OD_KHORDHA,city
+ଭୁବନେଶ୍ୱର,OD_KHORDHA,native
+patia,OD_KHORDHA,locality
+chandrasekharpur,OD_KHORDHA,locality
+jaydev vihar,OD_KHORDHA,locality
+751001,OD_KHORDHA,pin
+751024,OD_KHORDHA,pin
+kamrup metropolitan,AS_KAMRUP_METRO,city
+guwahati,AS_KAMRUP_METRO,city
+গুৱাহাটী,AS_KAMRUP_METRO,native
+dispur,AS_KAMRUP_METRO,locality
+beltola,AS_KAMRUP_METRO,locality
+zoo road,AS_KAMRUP_METRO,locality
+781001,AS_KAMRUP_METRO,pin
+781005,AS_KAMRUP_METRO,pin
+raipur,CG_RAIPUR,city
+रायपुर,CG_RAIPUR,native
+shankar nagar,CG_RAIPUR,locality
+telibandha,CG_RAIPUR,locality
+492001,CG_RAIPUR,pin
+srinagar,JK_SRINAGAR,city
+سرینگر,JK_SRINAGAR,native
+lal chowk,JK_SRINAGAR,locality
+rajbagh,JK_SRINAGAR,locality
+hazratbal,JK_SRINAGAR,locality
+190001,JK_SRINAGAR,pin
+madurai,TN_MADURAI,city
+மதுரை,TN_MADURAI,native
+trichy,TN_TIRUCHIRAPPALLI,alt_name
+tiruchirappalli,TN_TIRUCHIRAPPALLI,city
+திருச்சிராப்பள்ளி,TN_TIRUCHIRAPPALLI,native
+salem,TN_SALEM,city
+சேலம்,TN_SALEM,native
+tirunelveli,TN_TIRUNELVELI,city
+nellai,TN_TIRUNELVELI,alt_name
+திருநெல்வேலி,TN_TIRUNELVELI,native
+erode,TN_ERODE,city
+ஈரோடு,TN_ERODE,native
+vellore,TN_VELLORE,city
+வேலூர்,TN_VELLORE,native
+thanjavur,TN_THANJAVUR,city
+tanjore,TN_THANJAVUR,alt_name
+தஞ்சாவூர்,TN_THANJAVUR,native
+dindigul,TN_DINDIGUL,city
+திண்டுக்கல்,TN_DINDIGUL,native
+kanchipuram,TN_KANCHIPURAM,city
+kanchi,TN_KANCHIPURAM,alt_name
+காஞ்சிபுரம்,TN_KANCHIPURAM,native
+cuddalore,TN_CUDDALORE,city
+கடலூர்,TN_CUDDALORE,native
+tiruppur,TN_TIRUPPUR,city
+திருப்பூர்,TN_TIRUPPUR,native
+kanyakumari,TN_KANYAKUMARI,city
+nagercoil,TN_KANYAKUMARI,city
+கன்னியாகுமரி,TN_KANYAKUMARI,native
+thoothukudi,TN_THOOTHUKUDI,city
+tuticorin,TN_THOOTHUKUDI,alt_name
+தூத்துக்குடி,TN_THOOTHUKUDI,native
+tiruvannamalai,TN_TIRUVANNAMALAI,city
+dharmapuri,TN_DHARMAPURI,city
+krishnagiri,TN_KRISHNAGIRI,city
+hosur,TN_KRISHNAGIRI,city
+namakkal,TN_NAMAKKAL,city
+karur,TN_KARUR,city
+virudhunagar,TN_VIRUDHUNAGAR,city
+sivakasi,TN_VIRUDHUNAGAR,city
+theni,TN_THENI,city
+nilgiris,TN_NILGIRIS,city
+ooty,TN_NILGIRIS,alt_name
+udhagamandalam,TN_NILGIRIS,city
+sivaganga,TN_SIVAGANGA,city
+karaikudi,TN_SIVAGANGA,city
+nagapattinam,TN_NAGAPATTINAM,city
+pudukkottai,TN_PUDUKKOTTAI,city
+chengalpattu,TN_CHENGALPATTU,city
+tambaram,TN_CHENGALPATTU,city
+ranipet,TN_RANIPET,city
+tirupathur,TN_TIRUPATHUR,city
+tenkasi,TN_TENKASI,city
+kallakurichi,TN_KALLAKURICHI,city
+mayiladuthurai,TN_MAYILADUTHURAI,city
+mysore,KA_MYSURU,alt_name
+mysuru,KA_MYSURU,city
+ಮೈಸೂರು,KA_MYSURU,native
+mangalore,KA_DAKSHINA_KANNADA,alt_name
+mangaluru,KA_DAKSHINA_KANNADA,city
+ಮಂಗಳೂರು,KA_DAKSHINA_KANNADA,native
+hubli,KA_DHARWAD,city
+hubballi,KA_DHARWAD,alt_name
+dharwad,KA_DHARWAD,city
+belgaum,KA_BELAGAVI,alt_name
+belagavi,KA_BELAGAVI,city
+gulbarga,KA_KALABURAGI,alt_name
+kalaburagi,KA_KALABURAGI,city
+bellary,KA_BALLARI,alt_name
+ballari,KA_BALLARI,city
+shimoga,KA_SHIVAMOGGA,alt_name
+shivamogga,KA_SHIVAMOGGA,city
+tumkur,KA_TUMAKURU,alt_name
+tumakuru,KA_TUMAKURU,city
+udupi,KA_UDUPI,city
+hassan,KA_HASSAN,city
+davanagere,KA_DAVANAGERE,city
+കൊച്ചി,KL_ERNAKULAM,native
+trivandrum,KL_THIRUVANANTHAPURAM,alt_name
+thiruvananthapuram,KL_THIRUVANANTHAPURAM,city
+തിരുവനന്തപുരം,KL_THIRUVANANTHAPURAM,native
+calicut,KL_KOZHIKODE,alt_name
+kozhikode,KL_KOZHIKODE,city
+കോഴിക്കോട്,KL_KOZHIKODE,native
+thrissur,KL_THRISSUR,city
+trichur,KL_THRISSUR,alt_name
+തൃശ്ശൂർ,KL_THRISSUR,native
+kollam,KL_KOLLAM,city
+quilon,KL_KOLLAM,alt_name
+kannur,KL_KANNUR,city
+cannanore,KL_KANNUR,alt_name
+alappuzha,KL_ALAPPUZHA,city
+alleppey,KL_ALAPPUZHA,alt_name
+kottayam,KL_KOTTAYAM,city
+malappuram,KL_MALAPPURAM,city
+vijayawada,AP_NTR,city
+విజయవాడ,AP_NTR,native
+guntur,AP_GUNTUR,city
+గుంటూరు,AP_GUNTUR,native
+tirupati,AP_TIRUPATI,city
+తిరుపతి,AP_TIRUPATI,native
+kurnool,AP_KURNOOL,city
+nellore,AP_SPSR_NELLORE,city
+kakinada,AP_KAKINADA,city
+rajahmundry,AP_EAST_GODAVARI,city
+hyderabad,TG_HYDERABAD,city
+warangal,TG_WARANGAL,city
+kazipet,TG_HANUMAKONDA,city
+nizamabad,TG_NIZAMABAD,city
+karimnagar,TG_KARIMNAGAR,city
+khammam,TG_KHAMMAM,city
+bombay,MH_MUMBAI_CITY,alt_name
+mumbai,MH_MUMBAI_CITY,city
+मुंबई,MH_MUMBAI_CITY,native
+pune,MH_PUNE,city
+navi mumbai,MH_RAIGAD,city
+thane,MH_THANE,city
+aurangabad,MH_AURANGABAD,alt_name
+chhatrapati sambhajinagar,MH_AURANGABAD,city
+solapur,MH_SOLAPUR,city
+kolhapur,MH_KOLHAPUR,city
+amravati,MH_AMRAVATI,city
+nanded,MH_NANDED,city
+ahmednagar,MH_AHMEDNAGAR,alt_name
+ahilyanagar,MH_AHMEDNAGAR,city
+surat,GJ_SURAT,city
+rajkot,GJ_RAJKOT,city
+bhavnagar,GJ_BHAVNAGAR,city
+jamnagar,GJ_JAMNAGAR,city
+gandhinagar,GJ_GANDHINAGAR,city
+delhi,DL_NEW_DELHI,city
+noida,UP_GAUTAM_BUDDHA_NAGAR,city
+greater noida,UP_GAUTAM_BUDDHA_NAGAR,city
+ghaziabad,UP_GHAZIABAD,city
+gurgaon,HR_GURUGRAM,alt_name
+gurugram,HR_GURUGRAM,city
+faridabad,HR_FARIDABAD,city
+chandigarh,CH_CHANDIGARH,city
+varanasi,UP_VARANASI,city
+banaras,UP_VARANASI,alt_name
+kashi,UP_VARANASI,alt_name
+prayagraj,UP_PRAYAGRAJ,city
+allahabad,UP_PRAYAGRAJ,alt_name
+agra,UP_AGRA,city
+lucknow,UP_LUCKNOW,city
+meerut,UP_MEERUT,city
+bareilly,UP_BAREILLY,city
+aligarh,UP_ALIGARH,city
+moradabad,UP_MORADABAD,city
+gorakhpur,UP_GORAKHPUR,city
+jhansi,UP_JHANSI,city
+mathura,UP_MATHURA,city
+ayodhya,UP_AYODHYA,city
+faizabad,UP_AYODHYA,alt_name
+jodhpur,RJ_JODHPUR,city
+kota,RJ_KOTA,city
+bikaner,RJ_BIKANER,city
+ajmer,RJ_AJMER,city
+udaipur,RJ_UDAIPUR,city
+gwalior,MP_GWALIOR,city
+jabalpur,MP_JABALPUR,city
+ujjain,MP_UJJAIN,city
+gaya,BR_GAYA,city
+bhagalpur,BR_BHAGALPUR,city
+muzaffarpur,BR_MUZAFFARPUR,city
+howrah,WB_HOWRAH,city
+asansol,WB_PASCHIM_BARDHAMAN,city
+durgapur,WB_PASCHIM_BARDHAMAN,city
+siliguri,WB_DARJEELING,city
+darjeeling,WB_DARJEELING,city
+cuttack,OD_CUTTACK,city
+rourkela,OD_SUNDARGARH,city
+berhampur,OD_GANJAM,city
+puri,OD_PURI,city
+amritsar,PB_AMRITSAR,city
+jalandhar,PB_JALANDHAR,city
+patiala,PB_PATIALA,city
+mohali,PB_SAS_NAGAR,city
+jamshedpur,JH_EAST_SINGHBHUM,city
+tatanagar,JH_EAST_SINGHBHUM,alt_name
+dhanbad,JH_DHANBAD,city
+bokaro,JH_BOKARO,city
+bhilai,CG_DURG,city
+bilaspur,CG_BILASPUR,city
+silchar,AS_CACHAR,city
+dehradun,UK_DEHRADUN,city
+haridwar,UK_HARIDWAR,city
+rishikesh,UK_DEHRADUN,city
+haldwani,UK_NAINITAL,city
+shimla,HP_SHIMLA,city
+dharamshala,HP_KANGRA,city
+jammu,JK_JAMMU,city
+panaji,GA_NORTH_GOA,city
+panjim,GA_NORTH_GOA,alt_name
+margao,GA_SOUTH_GOA,city
+madgaon,GA_SOUTH_GOA,alt_name
+puducherry,PY_PUDUCHERRY,city
+pondicherry,PY_PUDUCHERRY,alt_name
+port blair,AN_SOUTH_ANDAMAN,city
+agartala,TR_WEST_TRIPURA,city
+imphal,MN_IMPHAL_WEST,city
+shillong,ML_EAST_KHASI_HILLS,city
+aizawl,MZ_AIZAWL,city
+kohima,NL_KOHIMA,city
+itanagar,AR_PAPUM_PARE,city
+gangtok,SK_EAST_SIKKIM,city
+leh,LA_LEH,city
