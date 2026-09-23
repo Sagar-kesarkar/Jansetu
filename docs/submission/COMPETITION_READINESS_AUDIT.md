@@ -1,5 +1,7 @@
 # JanSetu (जनसेतु) — Competition Rules Compliance and Win-Readiness Audit Report
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 **Audit Date**: 2026-08-24  
 **Auditor Role**: Strict Technical Auditor & Competition Reviewer  
 **Repository Root**: `D:\AI Code for Communities\jansetu`  

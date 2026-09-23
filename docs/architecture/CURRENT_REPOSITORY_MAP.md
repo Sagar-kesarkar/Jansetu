@@ -1,5 +1,7 @@
 # JanSetu (जनसेतु) — Current Repository Architecture Map
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 This document details the architectural layout, active component paths, channel routers, and database models of the **JanSetu** platform.
 
 ---
@@ -9,7 +11,7 @@ This document details the architectural layout, active component paths, channel 
 | Component | Active Filepath | Port / Entrypoint | Technology Stack |
 |---|---|---|---|
 | **Backend API** | `backend/` | `http://localhost:8080` (`app.main:app`) | FastAPI, SQLAlchemy 2.0, Pydantic v2, Google GenAI SDK |
-| **Citizen Web Portal** | `frontend/` | `http://localhost:5173` | React 19, Vite, Leaflet, Recharts |
+| **Citizen Web Portal** | `frontend-citizen/` | `http://localhost:5173` | React 19, Vite, Leaflet, Recharts |
 | **Officials Console** | `frontend-admin/` | `http://localhost:5174` | React 19, Vite, Recharts, Lucide Icons |
 | **Channel Telephony** | `backend/app/channels/` | Webhook & CLI (`python -m app.channels.simulator`) | IVR (Exotel), SMS (DLT/Exotel), WhatsApp Cloud API |
 | **Database & Models** | `backend/app/db/` | `backend/jansetu.db` | SQLite (Development) / PostgreSQL (Production) via SQLAlchemy |
@@ -60,7 +62,7 @@ JanSetu/
 │   ├── data-sources/                   # Government budget sources, provenance & audit
 │   ├── deployment/                     # Deployment instructions for Cloud / Containers
 │   └── submission/                     # Demo script, pitch deck, compliance checklist
-├── frontend/                           # Citizen Web Application (React 19 + Vite)
+├── frontend-citizen/                           # Citizen Web Application (React 19 + Vite)
 ├── frontend-admin/                     # Officials Console (React 19 + Vite)
 ├── infra/                              # Deployment scripts and container orchestration
 ├── .env.example                        # Safe environment variable template

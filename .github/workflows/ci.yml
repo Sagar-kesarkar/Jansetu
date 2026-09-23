@@ -32,7 +32,7 @@ jobs:
           pytest -v
 
   frontend-builds:
-    name: Frontend & Admin Console Production Builds
+    name: frontend-citizen & Admin Console Production Builds
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -44,11 +44,11 @@ jobs:
           node-version: '22'
           cache: 'npm'
           cache-dependency-path: |
-            frontend/package-lock.json
+            frontend-citizen/package-lock.json
             frontend-admin/package-lock.json
 
-      - name: Build Citizen Frontend
-        working-directory: frontend
+      - name: Build Citizen Website
+        working-directory: frontend-citizen
         run: |
           npm ci
           npm run build

@@ -1,206 +1,71 @@
-# JanSetu (जनसेतु) — Execution & Startup Guide
+# Local development
 
-This document provides step-by-step instructions for installing dependencies, seeding the database, starting all services, and verifying the end-to-end system.
+## Requirements
 
----
+Use Python 3.12 and Node.js 22.12 or later in the Node 22 release line, with npm and Git. A Gemini key is optional. No billing account is required for local fallback mode.
 
-## 🧭 Architecture & Port Allocation
-
-| Component | Technology | Default URL / Port | Description |
-|---|---|---|---|
-| **Backend API** | FastAPI (Python 3.12+) | `http://localhost:8080` (Docs: `/docs`) | Multilingual intake, Gemini structuring, scoring engine, privacy sanitization, and REST API |
-| **Citizen Web App** | React 19 + Vite | `http://localhost:5173` | Citizen intake portal (voice/text across 13 Indian languages), tracking token lookup |
-| **Officials Console** | React 19 + Vite | `http://localhost:5174` | Casework desk, status management, official reply drafting, priority ranking map |
-| **IVR Simulator** | Python CLI | Terminal session | Interactive telephony simulator for voice & DTMF intake in Indian languages |
-
----
-
-## ⚡ Option 1: 1-Click Startup (Windows Batch Files)
-
-For quick local development on Windows, convenient batch scripts are provided in the repository root:
-
-1. **Start Backend API (`:8080`)**:
-   ```cmd
-   run_backend.bat
-   ```
-2. **Start Citizen Web App (`:5173`)**:
-   ```cmd
-   run_frontend.bat
-   ```
-3. **Start Officials Console (`:5174`)**:
-   ```cmd
-   run_admin.bat
-   ```
-4. **Launch IVR Telephony Simulator**:
-   ```cmd
-   run_ivr_simulator.bat
-   ```
-5. **Run Test Suite**:
-   ```cmd
-   run_tests.bat
-   ```
-
----
-
-## 🛠 Option 2: Manual Step-by-Step Startup
-
-### 1. Prerequisites
-- **Python 3.12+** installed and available in PATH.
-- **Node.js 18+** and **npm** installed.
-- *(Optional but recommended)* Free **Gemini API Key** from [Google AI Studio](https://aistudio.google.com/apikey).
-
----
-
-### 2. Environment Configuration
-
-Copy the example environment configuration file to `.env`:
-
-**Windows (PowerShell):**
-```powershell
-Copy-Item .env.example .env
-```
-
-**macOS / Linux:**
-```bash
-cp .env.example .env
-```
-
-Open `.env` and configure your `GEMINI_API_KEY`:
-```ini
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.5-flash
-DATABASE_URL=sqlite:///./jansetu.db
-CORS_ORIGINS=http://localhost:5173,http://localhost:5174
-```
-
-> **Note:** The platform includes graceful fallbacks and offline heuristics if no Gemini key is provided, but a free key enables full live multilingual audio transcription and entity structuring.
-
----
-
-### 3. Install Dependencies
-
-#### A. Backend (Python Virtual Environment)
-```bash
-# Create virtual environment if not already present
+```sh
+git clone https://github.com/Sagar-kesarkar/Jansetu.git
+cd Jansetu
 python -m venv .venv
+```
 
-# Activate virtual environment:
-# Windows (PowerShell):
-.venv\Scripts\Activate.ps1
-# Windows (CMD):
-.venv\Scripts\activate.bat
-# Linux / macOS:
-source .venv/bin/activate
+Activate with `.venv\\Scripts\\Activate.ps1` in PowerShell or `source .venv/bin/activate` on Linux/macOS.
 
-# Install requirements
+## Backend
+
+From the repository root, with the virtual environment active:
+
+```sh
 cd backend
-pip install -r requirements.txt
-```
-
-#### B. Citizen Frontend
-```bash
-cd ../frontend
-npm install
-```
-
-#### C. Officials Console Frontend
-```bash
-cd ../frontend-admin
-npm install
-```
-
----
-
-### 4. Seed the Database
-
-Populate the database with 72 districts, 542 geographic aliases, 720 infrastructure indices, 720 investment plans, 600 citizen requests, and 498 official replies:
-
-**From repository root:**
-```bash
-cd backend
+python -m pip install -r requirements.txt
 python -m app.db.seed
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8080
 ```
-*Output confirmation:* `seed complete`
 
----
+The seed command creates tables and loads available reference/demo records. Inspect its output for actual counts. Open http://localhost:8080/docs for API documentation and /health for health status.
 
-### 5. Start Services
+For optional configuration, copy the root .env.example to backend/.env. The current settings loader resolves its REPO_ROOT to backend/, so a root-only .env is not reliably loaded. Alternatively use process environment variables. Leave GEMINI_API_KEY empty for fallback mode; template placeholders are not credentials.
 
-Open separate terminal windows/tabs for each service:
+Set CITIZEN_REF_SALT to a private, stable value for channel sessions that must survive restarts. CORS_ORIGINS must contain both frontend origins. Relative SQLite paths resolve from the process working directory; consistently start the API from backend/.
 
-#### Terminal 1 — Backend API (FastAPI)
-```bash
-cd backend
-uvicorn app.main:app --reload --port 8080
-```
-- API Base: `http://localhost:8080`
-- Interactive OpenAPI / Swagger Documentation: `http://localhost:8080/docs`
-- Health Check: `http://localhost:8080/health`
+## Citizen website
 
-#### Terminal 2 — Citizen Web App
-```bash
-cd frontend
+In a separate terminal from the repository root:
+
+```sh
+cd frontend-citizen
+npm ci
 npm run dev
 ```
-- Available at: `http://localhost:5173`
 
-#### Terminal 3 — Officials Console
-```bash
+Open http://localhost:5173. The folder was renamed from frontend-citizen/ to frontend-citizen/; the root run_frontend.bat launcher remains supported.
+
+## Officials console
+
+In another terminal from the repository root:
+
+```sh
 cd frontend-admin
+npm ci
 npm run dev
 ```
-- Available at: `http://localhost:5174`
 
-#### Terminal 4 — (Optional) IVR Telephony Simulator
-```bash
-cd backend
-python -m app.channels.simulator
+Open http://localhost:5174 and use the displayed demo autofill. This is not secure authentication. Both clients default to http://localhost:8080; VITE_API_BASE overrides that URL at build time.
+
+## Validation
+
+After finishing related changes, run from the indicated directories:
+
+```sh
+# backend/
+python -m pytest
+# frontend-citizen/
+npm run build
+# frontend-admin/
+npm run build
 ```
-- Follow the interactive terminal prompts to simulate inbound citizen calls, language selection, speech recording, and ticket generation.
 
----
+Mock external services in automated tests. Build success does not prove backend tests or provider delivery. Neither frontend currently declares a separate test script.
 
-## 🧪 Verification & Health Checks
-
-### 1. Automated Test Suite
-Run the comprehensive 224-test pytest suite:
-```bash
-cd backend
-pytest -v
-```
-All unit, integration, privacy sanitization, and priority scoring tests should pass (`224 passed`).
-
-### 2. Verify API Endpoints
-- **Health Check**:
-  ```bash
-  curl http://localhost:8080/health
-  # Expected: {"status":"ok"}
-  ```
-- **System Capabilities**:
-  ```bash
-  curl http://localhost:8080/capabilities
-  ```
-- **Aggregate Statistics**:
-  ```bash
-  curl http://localhost:8080/requests/stats
-  ```
-
-### 3. End-to-End User Flow Verification
-1. Open the **Citizen Web App** at `http://localhost:5173`.
-2. Submit a report (via text or simulated voice) in any supported language (e.g., Hindi, Tamil, Bengali, English).
-3. Copy the returned tracking token (e.g. `JS-XXXX-XXXX`).
-4. Switch to the **Officials Console** at `http://localhost:5174`.
-5. Check the incoming casework queue to see the structured complaint, extracted urgency, district mapping, and privacy-scrubbed details.
-6. Post an official response or update status in the Officials Console.
-7. Return to the Citizen Web App, go to **Track Request**, enter the tracking token, and verify the updated status and official response.
-
----
-
-## 🔍 Troubleshooting & Common Issues
-
-| Issue | Cause | Resolution |
-|---|---|---|
-| `Port 8080 / 5173 / 5174 in use` | Another process is holding the port. | Check with `netstat -ano \| findstr "8080 5173 5174"` and terminate conflicting processes. |
-| `ImportError: cannot import name 'budget'` | Legacy import in `app/main.py`. | Ensure `app/main.py` is clean and up to date. |
-| `CORS Error in Browser` | Frontend port mismatch. | Verify `CORS_ORIGINS` in `.env` contains `http://localhost:5173,http://localhost:5174`. |
-| `Vite Network Warning` | Vite bound only to local loopback. | Use `npm run dev -- --host` if exposing over a local network. |
+For a manual demonstration, file a synthetic report, copy its token, update it in the console and track it on the citizen website. Website channel simulation does not count as live messaging or telephony verification. Never use real citizen data for this demo.

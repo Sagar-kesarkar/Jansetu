@@ -1,5 +1,7 @@
 # Telephony Provider Adapters & Call-Flow Architecture
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 JanSetu's IVR is built as a **provider-agnostic conversation state machine** (`backend/app/channels/state.py` and `backend/app/channels/ivr.py`).
 
 In accordance with **Constraint 1 (₹0 infrastructure, no credit card)**, JanSetu does not require a paid telephony subscription or Indian DID number to run, test, or evaluate. It provides:

@@ -8,7 +8,7 @@ websites; it does not run the FastAPI server or SQLite database.
 ## Citizen website
 
 Import this repository into Netlify using branch `main`. The root `netlify.toml`
-sets base directory `frontend`, build command `npm run build`, publish directory
+sets base directory `frontend-citizen`, build command `npm run build`, publish directory
 `dist` (relative to the base), and Node.js 22. SPA redirects support deep links.
 
 ## Officials website

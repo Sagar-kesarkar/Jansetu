@@ -1,4 +1,6 @@
-# JanSetu — Officials' Console: Frontend Redesign Blueprint
+# JanSetu — Officials' Console: frontend Redesign Blueprint
+
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
 
 > **Purpose.** A complete, reconstruction-grade handoff of the **admin frontend only**
 > (`frontend-admin/`, the "Officials' Console"). An AI with **no access to this
@@ -7,7 +9,7 @@
 >
 > **Strict scope.** This covers only the officials' side: the sign-in gate, the
 > request queue / dashboard, and the single case-detail view. It **excludes** the
-> separate citizen-facing app (`frontend/`, on port 5173: public grievance
+> separate citizen-facing app (`frontend-citizen/`, on port 5173: public grievance
 > submission, tracking, policy dashboard, hotspot map, recommendations). Those live
 > in a different Vite app and share **zero** code with this one — the CSS, the API
 > client and the components are all deliberately duplicated so the two sites deploy

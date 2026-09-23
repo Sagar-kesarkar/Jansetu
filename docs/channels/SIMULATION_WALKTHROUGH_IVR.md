@@ -1,5 +1,7 @@
 # Simulation Walkthrough — IVR (Interactive Voice Response)
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 Simulate a **feature-phone voice call** entirely from the terminal — no
 telephony provider, no SIM, no credentials — and watch the complaint land on the
 **officials' admin dashboard** with:

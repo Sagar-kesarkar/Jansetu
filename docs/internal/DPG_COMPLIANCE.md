@@ -1,5 +1,7 @@
 # Digital Public Good compliance
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 The track asks for a platform "designed as a Digital Public Good". The DPG
 Alliance publishes nine standard indicators. Here is where JanSetu stands
 against each, and where it honestly falls short of a production DPG.

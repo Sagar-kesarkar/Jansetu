@@ -1,5 +1,7 @@
 # Hackathon requirement checklist
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 Every mandatory rule mapped to the file that satisfies it, so a judge can verify
 each claim in under a minute. Keep this file honest — if something regresses,
 edit the row rather than leaving a green tick.

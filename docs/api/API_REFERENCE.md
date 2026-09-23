@@ -1,45 +1,46 @@
-# JanSetu (जनसेतु) — REST API Reference
+# API reference
 
-The JanSetu platform exposes a RESTful API with automated OpenAPI specifications accessible at `/docs` or `/openapi.json`.
+The running /openapi.json and /docs are authoritative for payloads, parameters and schemas. All paths below are relative to the backend URL.
 
----
+| Method | Path | Purpose |
+| --- | --- | --- |
+| POST | /intake/report | Multipart text/audio/photo intake |
+| POST | /intake/text | JSON text intake |
+| POST | /intake/voice | Voice intake |
+| GET | /track/{token} | Public tracking |
+| PATCH | /track/{token}/location | Token-specific location follow-up |
+| GET | /requests | Casework list |
+| GET | /requests/stats | Casework statistics |
+| GET | /requests/{request_id} | Case details |
+| GET | /requests/{request_id}/photo | Retained photograph |
+| POST | /requests/{request_id}/responses | Official reply |
+| PATCH | /requests/{request_id}/status | Update status |
+| PATCH | /requests/{request_id}/restore | Rescue invalid request |
+| GET | /official/requests | Parallel officials feed |
+| GET | /official/dashboard/summary | Summary |
+| GET | /official/events/stream | SSE events |
+| GET | /districts | District reference data |
+| GET | /states | State options |
+| GET | /hotspots | Demand aggregation |
+| GET | /recommendations | Computed priorities |
+| GET | /recommendations/brief | Narrative evidence |
+| GET | /health | Health check |
+| GET | /capabilities | Configuration/capabilities |
 
-## 🧭 Endpoint Catalog
+## Channels
 
-### 1. Citizen Ingestion & Reporting
-- `POST /intake/report`: Multipart intake supporting combined text, audio voice note, and photograph attachment.
-- `POST /intake/text`: JSON citizen complaint filing (`text`, `language`, `channel`, `location_text`).
-- `POST /intake/voice`: Voice note intake with automatic transcription and structuring.
+- GET /intake/whatsapp: Meta verification challenge; POST on the same path: inbound webhook.
+- GET or POST /intake/sms/exotel: SMS inbound.
+- GET or POST /callbacks/sms/exotel/status: SMS callback.
+- POST /ivr/webhook and /ivr/webhooks/incoming: IVR inbound.
+- GET or POST /ivr/exotel/passthru: Exotel call-flow callback.
+- POST /ivr/exotel/recording: recording callback.
+- /ivr/sessions and per-session dtmf, input, audio, repeat and end routes support simulation. Consult OpenAPI for methods and bodies.
 
-### 2. Citizen Request Tracking
-- `GET /track/{token}`: Accountless tracking endpoint returning step progression, official replies, translated notes, and history timeline.
-- `GET /requests/{id}/evidence/photo`: Retrieve sanitized case photograph attachment.
+The IVR router is also mounted under /api/v1, exposing /api/v1/ivr/... aliases. Provider callbacks need the public backend URL and provider-side configuration.
 
-### 3. Officials Console & Casework Desk
-- `GET /official/requests`: Filterable docket list for government officers (Zero-PII).
-- `GET /official/dashboard/summary`: Aggregate metrics across categories, channels, urgency, and statuses.
-- `GET /official/events/stream`: Server-Sent Events (SSE) live feed of incoming complaints.
-- `POST /requests/{id}/responses`: Add official reply, trigger Gemini translation, and advance case status.
-- `PATCH /requests/{id}/status`: Update case status (`UNDER_REVIEW`, `IN_PROGRESS`, `RESOLVED`, etc.).
+## Funds
 
-### 4. Authoritative Public Funds
-- `GET /api/v1/funds/overview`: High-level 4-KPI budget metrics (Allocated, Released, Spent, Available).
-- `GET /api/v1/funds/districts`: Comparative district financial breakdown and grievance pressure.
-- `GET /api/v1/funds/sectors`: Sector-level budget distribution and utilization signals.
-- `GET /api/v1/funds/sources`: Catalog of official government data sources, URLs, and sync timestamps.
-- `GET /api/v1/funds/coverage`: State and district financial data availability map.
+Public GET endpoints are /api/v1/funds/overview, /api/v1/funds/districts, /api/v1/funds/sectors, /api/v1/funds/sources and /api/v1/funds/coverage. Legacy allocations use /budget/allocations. Import/review routes are under /api/v1/admin/funds. A route name is not evidence of authentication or verified provenance.
 
-### 5. Analytics & Prioritization
-- `GET /hotspots`: Identify geographic grievance clusters ranked by urgency and volume.
-- `GET /recommendations`: Ranked infrastructure project interventions with explainable evidence metrics.
-- `GET /districts`: Directory of covered districts, LGD codes, demographics, and baseline indices.
-
-### 6. Channels & Telephony
-- `POST /channels/whatsapp/webhook`: Inbound WhatsApp Cloud API webhook receiver.
-- `POST /sms/incoming`: Inbound SMS webhook receiver (DLT compliant).
-- `POST /channels/ivr/event`: IVR state machine call handler for inbound voice telephony.
-- `POST /channels/ivr/hangup`: IVR call termination and cleanup.
-
-### 7. Metadata & Health
-- `GET /health`: Service health check (`{"status": "ok"}`).
-- `GET /capabilities`: Configured taxonomy, languages, model status, and scoring parameters.
+Use request_count and requests for multi-issue intake; do not assume the top-level legacy result includes every issue. Stored NEW means submitted; NEEDS_LOCATION requires input. Tokens are bearer references. Read [security limitations](../../SECURITY.md) before exposing administrative or casework APIs.

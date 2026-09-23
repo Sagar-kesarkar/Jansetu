@@ -1,5 +1,7 @@
 # Demo video script — 3 to 5 minutes
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 Target 4:15. Screen recording with voiceover. Show the product working; do not
 narrate a slide deck. Rehearse once with a stopwatch.
 

@@ -1,5 +1,7 @@
 # Data sources and provenance
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 Judges discount projects that blur real and synthetic data. This file draws the
 line explicitly. Every number in the demo falls into exactly one of three
 buckets.
@@ -97,4 +99,3 @@ Gemini in front of the judge.
 
 Say that plainly in the video. Stated openly it reads as rigour; glossed over,
 it reads as hand-waving.
-

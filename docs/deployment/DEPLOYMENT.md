@@ -1,53 +1,29 @@
-# JanSetu (जनसेतु) — Deployment & Production Setup Guide
+# Deployment preparation
 
-This guide covers deployment strategies for JanSetu on containerized infrastructure (Docker / Kubernetes) and cloud platforms.
+GitHub publication is complete. Netlify deployment is deferred and backend hosting is undecided. No public application URL or successful live channel delivery is claimed.
 
----
+## Frontends
 
-## 🐳 Docker Container Deployment
+Follow [Netlify configuration](NETLIFY.md) when deployment is authorised. frontend-citizen/ and frontend-admin/ are independent static builds. Set VITE_API_BASE to the backend HTTPS URL before building; rebuild after changing it. Never place secrets in frontend variables.
 
-The backend contains a production-ready multi-stage Dockerfile (`backend/Dockerfile`).
+## Backend container
 
-### Build & Run Backend Container:
-```bash
-cd backend
-docker build -t jansetu-backend:latest .
-docker run -d -p 8080:8080 \
-  -e GEMINI_API_KEY="your_ai_studio_key" \
-  -e DATABASE_URL="sqlite:///./jansetu.db" \
-  -e CORS_ORIGINS="https://citizen.jansetu.gov.in,https://admin.jansetu.gov.in" \
-  --name jansetu-api jansetu-backend:latest
+The existing Dockerfile is single-stage and requires repository-root build context:
+
+```sh
+docker build -f backend/Dockerfile -t jansetu-api .
 ```
 
----
+This is the intended invocation, not a verified container build. The image seeds demo data during build. Review settings/data paths, migrations and resulting contents before use. The Dockerfile copies data/; never build from a workspace containing citizen evidence or secrets without excluding them from the build context.
 
-## 🌐 Production Architecture & Database Migration
+SQLite and evidence need durable storage, backups and a retention policy. Data baked into an image is not persistence for subsequent writes. Review automatic schema initialisation and Alembic together before upgrading a populated database.
 
-For enterprise deployments:
-1. **Database**: Switch from SQLite to Managed PostgreSQL:
-   ```ini
-   DATABASE_URL=postgresql://user:password@pg-host:5432/jansetu
-   ```
-2. **Migrations**: Apply Alembic migrations on startup:
-   ```bash
-   alembic upgrade head
-   ```
-3. **CORS & Domain Security**: Set explicit allowed origins in `.env`:
-   ```ini
-   CORS_ORIGINS=https://citizen.example.org,https://admin.example.org
-   ```
-4. **HTTPS & Reverse Proxy**: Deploy behind NGINX, Cloudflare, or AWS ALB with TLS termination.
+## Configuration
 
----
+Set DATABASE_URL, CITIZEN_REF_SALT, CORS_ORIGINS, PUBLIC_BASE_URL and, when needed, EVIDENCE_DIR. Gemini uses GEMINI_API_KEY, GEMINI_MODEL and GEMINI_MODEL_FALLBACKS. Model configuration does not guarantee current availability or free-tier access.
 
-## 📞 Channel Webhook Configuration
+Channel credentials are additional to the Gemini key; see backend/app/config.py and .env.example. Check provider terms/charges before enabling live telephony or messaging. No paid setup is authorised here. Use [API reference](../api/API_REFERENCE.md) callback paths and complete real provider verification/delivery tests before claiming live support.
 
-### Meta WhatsApp Cloud API:
-1. Configure webhook URL: `https://api.yourdomain.com/channels/whatsapp/webhook`
-2. Set verify token in `.env`: `WHATSAPP_VERIFY_TOKEN=your_secure_random_token`
-3. Subscribe to `messages` event.
+Read [SECURITY.md](../../SECURITY.md): the demo login does not protect APIs. Server-side access control and privacy handling must precede real citizen use.
 
-### Exotel IVR & SMS:
-1. Point inbound IVR Applet to: `https://api.yourdomain.com/channels/ivr/event`
-2. Configure SMS incoming callback: `https://api.yourdomain.com/sms/incoming`
-3. Provide DLT Entity and Template IDs in `.env` for Indian regulatory compliance.
+Legacy infra scripts target Cloud Run/Firebase and do not implement the current deployment plan. Do not run them. Managed PostgreSQL and billed cloud services are not project requirements.

@@ -1,60 +1,19 @@
-# Contributing to JanSetu (जनसेतु)
+# Contributing
 
-Thank you for your interest in contributing to **JanSetu — AI for Digital Public Infrastructure and Governance**!
+Use [RUN.md](RUN.md) for setup and [docs/README.md](docs/README.md) for maintained guides.
 
----
+## Engineering rules
 
-## 🛠 Local Development Setup
+- Use free/open-source components. Do not add billed Google Cloud services or google-cloud-* dependencies.
+- Use google-genai for Gemini with non-Gemini fallbacks.
+- Keep ranking arithmetic deterministic and analytics independent of services. Update tests/docs when scoring weights change.
+- Use plain CSS, not Tailwind; preserve responsive citizen and officials workflows.
+- Keep geographic coverage data-driven; validate identifiers and never invent locations.
+- Do not introduce citizen names, phone numbers, household addresses, IP addresses or device identifiers. Never commit credentials, databases or citizen evidence.
+- Preserve shared intake, per-request tokens, sender ownership and webhook deduplication.
 
-1. **Prerequisites**:
-   - Python 3.12+
-   - Node.js 20+ and npm
-   - Optional: Google AI Studio API key for live Gemini structuring.
+## Validation and documentation
 
-2. **Backend Setup**:
-   ```bash
-   python -m venv .venv
-   # Windows (PowerShell): .venv\Scripts\Activate.ps1
-   # Linux/macOS: source .venv/bin/activate
-   cd backend
-   pip install -r requirements.txt
-   uvicorn app.main:app --port 8080 --reload
-   ```
+After a change set, run backend tests with mocked external services and build both frontends using RUN.md. Report actual outcomes; simulator success is not provider delivery. No fixed passing-test count is guaranteed.
 
-3. **Citizen Frontend Setup**:
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-
-4. **Officials Console Setup**:
-   ```bash
-   cd frontend-admin
-   npm install
-   npm run dev
-   ```
-
----
-
-## 🧪 Testing & Validation
-
-Before submitting changes, ensure all tests and builds pass:
-
-```bash
-# Run backend test suite (280 tests)
-cd backend
-pytest -v
-
-# Run frontend builds
-cd ../frontend && npm run build
-cd ../frontend-admin && npm run build
-```
-
----
-
-## 📜 Code Style & Principles
-
-- **Zero PII**: Never commit raw citizen contacts, phone numbers, or private keys.
-- **Multilingual Support**: Ensure new features support all 13 Indian languages.
-- **Explainable Analytics**: Keep scoring algorithms deterministic and auditable.
+Label demo financial data, demo authentication and unverified integrations clearly. Documentation-only revisions must not imply that application limitations were fixed.

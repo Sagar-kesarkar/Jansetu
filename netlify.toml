@@ -1,12 +1,12 @@
 # Netlify build config, at the repo root so the site can be deployed by pointing
 # Netlify at this repository with no manual settings entered in the UI.
 #
-# `base` matters: the frontend is a subdirectory of a monorepo, and without it
+# `base` points to the citizen website subdirectory; without it
 # Netlify runs npm in the root, finds no package.json, and fails the build with a
 # message that does not mention directories at all.
 
 [build]
-  base = "frontend"
+  base = "frontend-citizen"
   command = "npm run build"
   publish = "dist"
 

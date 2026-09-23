@@ -1,5 +1,7 @@
 # JanSetu (जनसेतु) — GitHub Publishing & Release Guide
 
+> Historical reference, superseded on 23 September 2026. Use the [maintained documentation](../README.md) for current instructions. Earlier claims about uptime, passing-test counts, verified financial feeds, photo deletion and production security are not current assurances. Photographs are retained; financial inputs are demonstration data; officials sign-in is a demo gate. Deployment and live channel verification remain pending.
+
 > [!WARNING]
 > **STRICT LOCAL-ONLY AUDIT LOCK NOTICE**  
 > This guide contains non-executed manual commands for future repository publication. During the current automated audit task, no remote repository creation, credential authentication, staging, committing, or pushing has been performed. All steps below are for the repository owner to execute manually when authorized.
@@ -25,7 +27,7 @@ Before running any Git staging or publishing commands, manually verify:
 4. [ ] **Archive Folder**: Confirm `_archive_unwanted_files/` contains only historical reference material and is documented in `_archive_unwanted_files/ARCHIVE_MANIFEST.md`.
 5. [ ] **Builds & Tests Pass**:
    - Backend tests: `pytest -q` (280 passing).
-   - Citizen frontend build: `npm run build --prefix frontend`.
+   - Citizen frontend build: `npm run build --prefix frontend-citizen`.
    - Officials console build: `npm run build --prefix frontend-admin`.
 
 ---
