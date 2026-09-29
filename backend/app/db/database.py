@@ -59,8 +59,8 @@ def _widen_district_codes():
     if engine.dialect.name != 'postgresql':
         return
     from sqlalchemy import inspect, text
-    inspector = inspect(engine)
     with engine.begin() as conn:
+        inspector = inspect(conn)
         for table in Base.metadata.sorted_tables:
             for column in inspector.get_columns(table.name):
                 if (column['name'] == 'district_code' or
