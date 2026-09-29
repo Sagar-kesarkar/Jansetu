@@ -28,7 +28,7 @@ class District(Base):
     official dataset without a fuzzy name match."""
     __tablename__ = "districts"
 
-    code: Mapped[str] = mapped_column(String(16), primary_key=True)
+    code: Mapped[str] = mapped_column(String(32), primary_key=True)
     name: Mapped[str] = mapped_column(String(128), index=True)
     state: Mapped[str] = mapped_column(String(128), index=True)
     population: Mapped[int] = mapped_column(Integer, default=0)
@@ -343,4 +343,3 @@ class ChannelEvent(Base):
     details: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(default=_now, index=True)
     updated_at: Mapped[datetime] = mapped_column(default=_now, onupdate=_now, index=True)
-

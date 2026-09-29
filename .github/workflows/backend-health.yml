@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     env:
-      HEALTH_URL: ${{ vars.BACKEND_HEALTH_URL || 'https://jansetu-api.onrender.com/health' }}
+      HEALTH_URL: ${{ vars.BACKEND_HEALTH_URL || 'https://jansetu-api-ckqj.onrender.com/health' }}
       HEALTH_UNTIL: ${{ vars.BACKEND_HEALTH_UNTIL || '2026-10-15T23:59:00+05:30' }}
     steps:
       # No checkout, credentials, database operations or third-party actions.

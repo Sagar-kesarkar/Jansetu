@@ -4,6 +4,6 @@
 #
 # Status 200, not 301: a redirect would change the URL in the address bar, and a
 # judge sharing a deep link to /recommendations should land on /recommendations.
-/backend/intake/session https://jansetu-api.onrender.com/intake/session 200!
-/backend/intake/session/revoke https://jansetu-api.onrender.com/intake/session/revoke 200!
+/backend/intake/session https://jansetu-api-ckqj.onrender.com/intake/session 200!
+/backend/intake/session/revoke https://jansetu-api-ckqj.onrender.com/intake/session/revoke 200!
 /*  /index.html  200

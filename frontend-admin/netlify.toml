@@ -10,7 +10,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
-  VITE_API_BASE = "https://jansetu-api.onrender.com"
+  VITE_API_BASE = "https://jansetu-api-ckqj.onrender.com"
 
 # React Router owns the URL space. Without this, a refresh on /requests/604
 # asks Netlify for a file that does not exist and returns its 404 page.

@@ -13,18 +13,18 @@
 [build.environment]
   # Vite 8 needs a modern Node; Netlify's default image lags behind.
   NODE_VERSION = "22"
-  VITE_API_BASE = "https://jansetu-api.onrender.com"
+  VITE_API_BASE = "https://jansetu-api-ckqj.onrender.com"
   VITE_SESSION_BASE = "/backend"
 
 [[redirects]]
   from = "/backend/intake/session"
-  to = "https://jansetu-api.onrender.com/intake/session"
+  to = "https://jansetu-api-ckqj.onrender.com/intake/session"
   status = 200
   force = true
 
 [[redirects]]
   from = "/backend/intake/session/revoke"
-  to = "https://jansetu-api.onrender.com/intake/session/revoke"
+  to = "https://jansetu-api-ckqj.onrender.com/intake/session/revoke"
   status = 200
   force = true
 

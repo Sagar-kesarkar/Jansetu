@@ -2,7 +2,7 @@
 
 - Citizen: https://jansetuu.netlify.app
 - Admin: https://jansetuadmin.netlify.app
-- Backend: https://jansetu-api.onrender.com
+- Backend: https://jansetu-api-ckqj.onrender.com
 - Feature baseline: `af7d1bb` (Cookie section: add consent and daily complaint limits).
 - Budget pages, adapters, graphs and sync behavior remain identical to that baseline.
   The subsequently abandoned budget snapshot/source changes are not part of this release.

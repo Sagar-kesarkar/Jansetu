@@ -51,6 +51,23 @@ def init_db() -> None:
     Base.metadata.create_all(bind=engine)
     _add_missing_columns()
     _add_missing_indexes()
+    _widen_district_codes()
+
+
+def _widen_district_codes():
+    """SQLite accepted long reference codes; PostgreSQL enforces VARCHAR sizes."""
+    if engine.dialect.name != 'postgresql':
+        return
+    from sqlalchemy import inspect, text
+    inspector = inspect(engine)
+    with engine.begin() as conn:
+        for table in Base.metadata.sorted_tables:
+            for column in inspector.get_columns(table.name):
+                if (column['name'] == 'district_code' or
+                        (table.name == 'districts' and column['name'] == 'code')):
+                    length = getattr(column['type'], 'length', None)
+                    if length is not None and length < 32:
+                        conn.execute(text(f'ALTER TABLE {table.name} ALTER COLUMN {column["name"]} TYPE VARCHAR(32)'))
 
 
 def _add_missing_columns() -> None:
