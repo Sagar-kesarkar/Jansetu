@@ -86,7 +86,12 @@ _GENERIC_REPLY = (
 )
 
 
-def ingest_submission(
+def ingest_submission(db: Session, **payload) -> IntakeEnvelope:
+    from app.services.submission_guard import guarded_ingest
+    return guarded_ingest(db, _ingest_submission, payload)
+
+
+def _ingest_submission(
     db: Session,
     *,
     text: str | None = None,
@@ -190,6 +195,8 @@ def ingest_submission(
     # all: there is no identified problem to file, and the channel session holds the
     # pseudonymised state needed to continue.
     if submission.classification is Classification.INVALID_OR_SPAM:
+        from app.services.submission_guard import begin_write
+        begin_write(db)
         _file_flagged(
             db, submission, text=text, transcript=transcript, language=language,
             channel=channel, citizen_ref=citizen_ref, message_id=message_id,
@@ -200,6 +207,8 @@ def ingest_submission(
         return _empty_envelope(submission, language=language, channel=channel)
 
     issues = submission.issues[: settings.max_issues_per_submission]
+    from app.services.submission_guard import begin_write
+    begin_write(db)
     if len(submission.issues) > len(issues):
         log.warning(
             "Submission proposed %s issues — capped at %s",
@@ -328,7 +337,8 @@ def ingest_submission(
         db.add(row)
         rows.append(row)
 
-    db.commit()
+    from app.services.submission_guard import persist
+    persist(db)
     results: list[IntakeResult] = []
     for row, issue in zip(rows, issues):
         db.refresh(row)
@@ -671,7 +681,8 @@ def _file_flagged(
         original_message_id=message_id,
     )
     db.add(row)
-    db.commit()
+    from app.services.submission_guard import persist
+    persist(db)
     db.refresh(row)
     # Logged at warning, not info. This is the one path where the platform decides on
     # its own not to show a citizen's message to an officer, and if triage starts

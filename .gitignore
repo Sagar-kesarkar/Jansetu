@@ -25,6 +25,7 @@ gcp-key.json
 *.sqlite
 *.db-shm
 *.db-wal
+.local-preview/
 
 # Citizens' photographs. Never committed — a public submission repo is the exact
 # opposite of "reachable only through the officials' console", and one accidental

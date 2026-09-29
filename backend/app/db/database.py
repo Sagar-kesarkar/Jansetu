@@ -34,6 +34,7 @@ def get_db() -> Generator[Session, None, None]:
 
 
 def init_db() -> None:
+    from app.services import submission_guard  # noqa: F401 -- additive tables
     from app.db import models, financial_models  # noqa: F401  (registers tables)
     Base.metadata.create_all(bind=engine)
     _add_missing_columns()

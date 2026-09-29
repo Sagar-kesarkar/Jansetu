@@ -1,0 +1,66 @@
+name: Backend health check
+
+on:
+  schedule:
+    # UTC; avoid the busiest top-of-hour minute.
+    - cron: '7,17,27,37,47,57 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: backend-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    # Standard runners are free for public repositories. No paid private runs.
+    if: github.event.repository.private == false && vars.BACKEND_HEALTH_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      HEALTH_URL: ${{ vars.BACKEND_HEALTH_URL }}
+      HEALTH_UNTIL: ${{ vars.BACKEND_HEALTH_UNTIL }}
+    steps:
+      # No checkout, credentials, database operations or third-party actions.
+      - name: Verify deployed API health
+        shell: python
+        run: |
+          import json
+          import os
+          from datetime import datetime, timezone
+          from urllib.parse import urlsplit
+          from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+          until = os.environ.get('HEALTH_UNTIL', '')
+          try:
+              end = datetime.fromisoformat(until.replace('Z', '+00:00'))
+              if end.tzinfo is None:
+                  raise ValueError('Timezone required')
+          except ValueError:
+              raise SystemExit('Set BACKEND_HEALTH_UNTIL to an ISO timestamp with timezone.')
+          if datetime.now(timezone.utc) >= end:
+              print('Competition health-check window ended; no request sent.')
+              raise SystemExit(0)
+
+          url = os.environ.get('HEALTH_URL', '')
+          parsed = urlsplit(url)
+          if (parsed.scheme != 'https' or not parsed.hostname
+                  or not parsed.hostname.endswith('.onrender.com')
+                  or parsed.username or parsed.password or parsed.port
+                  or parsed.path != '/health' or parsed.query or parsed.fragment):
+              raise SystemExit('Set BACKEND_HEALTH_URL to https://YOUR-SERVICE.onrender.com/health.')
+
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self, req, fp, code, msg, headers, newurl):
+                  return None
+
+          request = Request(url, headers={'User-Agent': 'JanSetu-Health-Check/1.0'})
+          # A cold start can be slow. One bounded read-only request per run.
+          with build_opener(NoRedirect()).open(request, timeout=90) as response:
+              if response.status != 200:
+                  raise SystemExit('API returned a non-200 status.')
+              payload = json.loads(response.read(4096))
+          if not isinstance(payload, dict) or payload.get('status') != 'ok':
+              raise SystemExit('API did not return the expected health response.')
+          print('API health check passed.')

@@ -1,6 +1,6 @@
 # API reference
 
-The running /openapi.json and /docs are authoritative for payloads, parameters and schemas. All paths below are relative to the backend URL.
+The running /openapi.json and /docs describe payloads, parameters and schemas. The browser middleware requirements below also apply and are not all represented in OpenAPI. All paths below are relative to the backend URL.
 
 | Method | Path | Purpose |
 | --- | --- | --- |
@@ -26,6 +26,31 @@ The running /openapi.json and /docs are authoritative for payloads, parameters a
 | GET | /recommendations/brief | Narrative evidence |
 | GET | /health | Health check |
 | GET | /capabilities | Configuration/capabilities |
+
+## Browser submission session
+
+After explicit cookie acceptance, call GET `/intake/session` with
+`X-Submission-Consent: required` and credentials included. The response contains
+`confirmed` and `quota`; a new session sets the HttpOnly `jansetu_visitor` cookie.
+Repeat with that cookie to confirm transport before enabling submission. POST
+`/intake/session/revoke` removes the cookie. Both responses use `Cache-Control: no-store`.
+
+The three intake endpoints require the cookie and an `Idempotency-Key`. Reuse the
+key for retries of the same uncertain submission; use a new key for a new attempt
+after a confirmed result. Browser IVR simulation paths also require the cookie.
+An Origin header, when supplied, must match the configured allowlist.
+
+Errors use structured `detail` objects: 428 for required consent/session, 422 for
+a missing intake retry key, 403 for a disallowed origin, 409 for an active duplicate,
+in-progress attempt or reused key with changed content, and 429 for daily capacity
+or attempt throttling. Missing submission-secret configuration fails closed with
+503. Successful intake envelopes may include `quota` and `fingerprint`.
+
+Six persisted submission groups are allowed per browser identity per India calendar
+day. Exact open duplicates are checked before the daily limit; all linked cases
+must be RESOLVED or REJECTED before a fresh identical submission. Tracking and
+location follow-up do not consume another allowance. See the implementation report
+for anonymous-identity limitations and local validation coverage.
 
 ## Channels
 

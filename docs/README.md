@@ -13,6 +13,8 @@ Reviewed against repository code on 23 September 2026. This does not certify pro
 - [Deployment preparation](deployment/DEPLOYMENT.md)
 - [Future Netlify configuration](deployment/NETLIFY.md)
 - [Contributing](../CONTRIBUTING.md)
+- [Daily limits and exact duplicate implementation plan](internal/COMPLAINT_LIMIT_IMPLEMENTATION_PLAN.md)
+- [Local implementation results and screenshots](internal/COMPLAINT_LIMIT_IMPLEMENTATION_REPORT.md)
 
 ## Status
 

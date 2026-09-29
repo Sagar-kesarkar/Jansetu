@@ -6,9 +6,13 @@
  * because the population this is built for splits almost evenly on whether they
  * can comfortably do the second one.
  */
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-import { submitReport } from '../api.js'
+import { submitReport, getSubmissionSession } from '../api.js'
+import SubmissionNotice from '../components/SubmissionNotice.jsx'
+import { savedReceipts, forgetReceipts } from '../submissionMemory.js'
+import { cookieChoice } from '../sitePreference.js'
 import IntakeResultCard from '../components/IntakeResultCard.jsx'
 import LanguagePicker from '../components/LanguagePicker.jsx'
 import PhotoAttach from '../components/PhotoAttach.jsx'
@@ -35,6 +39,45 @@ export default function CitizenIntake() {
   const [submitting, setSubmitting] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
+  const [showNotice, setShowNotice] = useState(false)
+  const [quota, setQuota] = useState(null)
+  const [connecting, setConnecting] = useState(true)
+  const [connectionError, setConnectionError] = useState(null)
+  const [receipts, setReceipts] = useState(savedReceipts)
+  const refreshQuota = useCallback(async () => {
+    if (cookieChoice() !== 'accepted') {
+      setQuota(null)
+      setConnectionError(null)
+      setConnecting(false)
+      return
+    }
+    setConnecting(true)
+    try {
+      const session = await getSubmissionSession()
+      setQuota(session.quota)
+      setConnectionError(null)
+    } catch (err) {
+      setConnectionError(err)
+      setQuota(null)
+    } finally { setConnecting(false) }
+  }, [])
+  useEffect(() => {
+    refreshQuota()
+    const refreshReceipts = () => setReceipts(savedReceipts())
+    const onFocus = () => { refreshQuota(); refreshReceipts() }
+    window.addEventListener('focus', onFocus)
+    window.addEventListener('storage', onFocus)
+    window.addEventListener('jansetu-receipts', refreshReceipts)
+    window.addEventListener('jansetu-cookie-choice', onFocus)
+    const timer = setInterval(refreshQuota, 60_000)
+    return () => {
+      clearInterval(timer)
+      window.removeEventListener('focus', onFocus)
+      window.removeEventListener('storage', onFocus)
+      window.removeEventListener('jansetu-receipts', refreshReceipts)
+      window.removeEventListener('jansetu-cookie-choice', onFocus)
+    }
+  }, [refreshQuota])
 
   // Default to the first language the backend advertises rather than to a
   // hardcoded 'hi', so the picker and the request always agree.
@@ -48,6 +91,7 @@ export default function CitizenIntake() {
   async function onSubmit(e) {
     e.preventDefault()
     setError(null)
+    setShowNotice(false)
     setSubmitting(true)
     try {
       // One endpoint for both modes now, rather than `/intake/text` and
@@ -64,6 +108,8 @@ export default function CitizenIntake() {
         locationText: place.trim() || null,
       })
       setResult(res)
+      setShowNotice(res.request_count > 0 || !!res.quota?.used)
+      if (res.quota) setQuota(res.quota)
       // Clearing the message but keeping language and place: the next report from
       // the same person is usually about the same village. The photo goes too —
       // it belongs to the problem just reported, and carrying it into the next one
@@ -74,12 +120,15 @@ export default function CitizenIntake() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } catch (err) {
       setError(err)
+      setShowNotice(true)
+      if (err.detail?.quota) setQuota(err.detail.quota)
     } finally {
       setSubmitting(false)
+      refreshQuota()
     }
   }
 
-  const canSubmit = !submitting && (mode === 'voice' ? !!blob : text.trim().length >= 4)
+  const canSubmit = cookieChoice() === 'accepted' && !!quota && !submitting && (mode === 'voice' ? !!blob : text.trim().length >= 4)
 
   return (
     <>
@@ -87,10 +136,12 @@ export default function CitizenIntake() {
         <div className="page-head__eyebrow">Citizen</div>
         <h1>Tell us what your area needs</h1>
         <p className="page-head__sub">
-          Speak or write in your own language. No name, no phone number, no login — we keep only which district the
-          request came from.
+          Speak or write in your own language. No name, no phone number, no login. A private browser cookie remembers
+          your daily allowance and helps prevent repeat submissions.
         </p>
       </div>
+
+      {showNotice ? <SubmissionNotice quota={quota} error={error} filed={result?.request_count > 0} onDismiss={() => setShowNotice(false)} /> : null}
 
       {result ? (
         // "Report another need" lives inside the card rather than under it: the
@@ -99,7 +150,7 @@ export default function CitizenIntake() {
         <IntakeResultCard
           result={result}
           languages={caps.data?.languages ?? []}
-          onReset={() => setResult(null)}
+          onReset={() => { setResult(null); setShowNotice(false); setError(null) }}
         />
       ) : (
         <form className="card card__pad" onSubmit={onSubmit}>
@@ -173,6 +224,11 @@ export default function CitizenIntake() {
               <button type="submit" className="btn btn--block" disabled={!canSubmit}>
                 {submitting ? 'Sending…' : 'Submit request'}
               </button>
+              {cookieChoice() !== 'accepted' ? <p className="field__hint">To submit, allow required cookies using Cookie settings. You can still browse and track existing complaints.</p> : null}
+              {connectionError ? <div className="state state--error" role="alert">
+                <p className="state__body">{connectionError.message}</p>
+                <button type="button" className="btn btn--ghost btn--sm" disabled={connecting} onClick={refreshQuota}>Reconnect</button>
+              </div> : null}
 
               {submitting ? (
                 <p className="field__hint" style={{ textAlign: 'center', marginTop: 12 }}>
@@ -182,7 +238,6 @@ export default function CitizenIntake() {
                 </p>
               ) : null}
 
-              {error ? <ErrorState error={error} /> : null}
 
               <hr className="rule" />
               <p className="field__hint">
@@ -194,6 +249,17 @@ export default function CitizenIntake() {
           ) : null}
         </form>
       )}
+      {receipts.length ? <details className="submission-receipts">
+        <summary>Saved on this browser · {receipts.length} {receipts.length === 1 ? 'submission' : 'submissions'}</summary>
+        <p className="field__hint">Open a receipt to check its current status. Anyone using this browser can open these receipts. Saved for up to 90 days.</p>
+        <ul>{receipts.map(receipt => <li key={`${receipt.fingerprint}:${receipt.tokens.join('.')}`}>
+          {receipt.tokens.filter(t => /^JS-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(t)).map(token => <div key={token}>
+            <Link to={`/track/${encodeURIComponent(token)}`}>Track {token}</Link>
+          </div>)}
+        </li>)}</ul>
+        <button type="button" className="btn btn--ghost btn--sm" onClick={forgetReceipts}>Forget saved receipts</button>
+        <p className="field__hint">This removes local links only. Complaints and today’s allowance stay unchanged.</p>
+      </details> : null}
     </>
   )
 }

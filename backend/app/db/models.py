@@ -98,6 +98,7 @@ class InvestmentPlan(Base):
 
 class CitizenRequest(Base):
     __tablename__ = "citizen_requests"
+    submission_guard_id: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     district_code: Mapped[str | None] = mapped_column(ForeignKey("districts.code"), nullable=True, index=True)
@@ -342,5 +343,4 @@ class ChannelEvent(Base):
     details: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(default=_now, index=True)
     updated_at: Mapped[datetime] = mapped_column(default=_now, onupdate=_now, index=True)
-
 

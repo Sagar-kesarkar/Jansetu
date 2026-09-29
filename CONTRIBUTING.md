@@ -9,7 +9,7 @@ Use [RUN.md](RUN.md) for setup and [docs/README.md](docs/README.md) for maintain
 - Keep ranking arithmetic deterministic and analytics independent of services. Update tests/docs when scoring weights change.
 - Use plain CSS, not Tailwind; preserve responsive citizen and officials workflows.
 - Keep geographic coverage data-driven; validate identifiers and never invent locations.
-- Do not introduce citizen names, phone numbers, household addresses, IP addresses or device identifiers. Never commit credentials, databases or citizen evidence.
+- Do not introduce citizen names, phone numbers, household addresses, IP addresses or device fingerprints. The citizen-approved random browser cookie and pseudonymous quota identifier are the narrow exception for daily limits and duplicate recognition. Never commit credentials, databases or citizen evidence.
 - Preserve shared intake, per-request tokens, sender ownership and webhook deduplication.
 
 ## Validation and documentation

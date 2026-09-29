@@ -1,7 +1,7 @@
 """Tests for Public Funds API, Admin Workflow, and Consistency."""
 from decimal import Decimal
 import pytest
-from fastapi.testclient import TestClient
+from tests.browser_client import BrowserTestClient as TestClient
 
 from app.db.database import SessionLocal
 from app.db.financial_models import (

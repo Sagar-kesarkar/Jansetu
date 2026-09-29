@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import base64
 import pytest
-from fastapi.testclient import TestClient
+from tests.browser_client import BrowserTestClient as TestClient
 
 from app.channels.whatsapp import parse_whatsapp_webhook
 from app.db.database import SessionLocal, init_db

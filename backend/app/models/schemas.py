@@ -317,6 +317,8 @@ class IntakeEnvelope(IntakeResult):
     already used for conversational replies on WhatsApp. `acknowledgement_native`
     carries what to say back.
     """
+    quota: dict | None = None
+    fingerprint: str | None = None
     classification: Classification = Classification.VALID_SINGLE_ISSUE
     request_count: int = Field(
         default=1,

@@ -1,6 +1,9 @@
 # Deployment preparation
 
-GitHub publication is complete. Netlify deployment is deferred and backend hosting is undecided. No public application URL or successful live channel delivery is claimed.
+The baseline was published previously. The current feature changes remain local
+and uncommitted. Render backend and Netlify frontend preparation has started; see
+[the release worksheet](RENDER_NETLIFY_RELEASE.md). No public application URL or
+successful live channel delivery is claimed.
 
 ## Frontends
 
@@ -14,7 +17,10 @@ The existing Dockerfile is single-stage and requires repository-root build conte
 docker build -f backend/Dockerfile -t jansetu-api .
 ```
 
-This is the intended invocation, not a verified container build. The image seeds demo data during build. Review settings/data paths, migrations and resulting contents before use. The Dockerfile copies data/; never build from a workspace containing citizen evidence or secrets without excluding them from the build context.
+This is the intended invocation, not a verified container build. The image copies
+only reference, synthetic and IVR assets, includes migration tooling, and does not
+seed a database during build. The root .dockerignore excludes local credentials,
+databases and evidence. Seed approved data once after durable storage is configured.
 
 SQLite and evidence need durable storage, backups and a retention policy. Data baked into an image is not persistence for subsequent writes. Review automatic schema initialisation and Alembic together before upgrading a populated database.
 

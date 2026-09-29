@@ -14,7 +14,7 @@ Tests:
 from __future__ import annotations
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.browser_client import BrowserTestClient as TestClient
 from sqlalchemy.orm import Session
 
 from app.channels.exotel_sms import format_dlt_sms, process_exotel_inbound_sms

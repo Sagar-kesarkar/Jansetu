@@ -16,6 +16,7 @@ import Logo from './components/Logo.jsx'
 import { Loading } from './components/States.jsx'
 import { CapabilitiesProvider } from './hooks/useCapabilities.jsx'
 import CitizenIntake from './pages/CitizenIntake.jsx'
+import PrivacyPrompt from './components/PrivacyPrompt.jsx'
 import TrackStatus from './pages/TrackStatus.jsx'
 
 /**
@@ -103,6 +104,7 @@ export default function App() {
           Citizen reports, census demographics and public investment data joined at the district level ·
           Scoring is deterministic Python; Gemini structures input and narrates output, and never produces a
           ranked number · API <code>{API_BASE}</code>
+          <PrivacyPrompt />
         </footer>
 
         {/* Outside `main`, and on every route by design. The three channels are

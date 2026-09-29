@@ -9,18 +9,22 @@
 // Trailing slash stripped so `${BASE}/hotspots` can never become a double slash,
 // which some hosts 301 and browsers then re-request without the CORS preflight.
 export const API_BASE = (
-  import.meta.env.VITE_API_BASE || 'http://localhost:8080'
+  import.meta.env.VITE_API_BASE || (import.meta.env.DEV ? '/api' : 'http://localhost:8080')
 ).replace(/\/+$/, '')
 
 /** Gemini calls are slow; plain reads should not wait as long before failing. */
+import { retryIdentity, finishRetry, rememberReceipt } from './submissionMemory.js'
+import { cookieChoice } from './sitePreference.js'
+
 const READ_TIMEOUT_MS = 20_000
 const GEMINI_TIMEOUT_MS = 90_000
 
 class ApiError extends Error {
-  constructor(message, status) {
+  constructor(message, status, detail = null) {
     super(message)
     this.name = 'ApiError'
     this.status = status
+    this.detail = detail
   }
 }
 
@@ -30,10 +34,21 @@ class ApiError extends Error {
  * is broken" and "the wifi is bad", so the messages stay specific.
  */
 async function request(path, { timeout = READ_TIMEOUT_MS, ...init } = {}) {
+  const intake = ['/intake/report', '/intake/text', '/intake/voice'].includes(path)
+  const simulation = path.startsWith('/ivr/sessions') || path === '/ivr/simulate'
+  let identity
+  if (intake || simulation) {
+    await getSubmissionSession()
+    if (intake) {
+      identity = await retryIdentity(init.body)
+      init.headers = { ...init.headers, 'Idempotency-Key': identity.key }
+    }
+  }
   let resp
   try {
     resp = await fetch(`${API_BASE}${path}`, {
       ...init,
+      credentials: 'include',
       signal: AbortSignal.timeout(timeout),
     })
   } catch (err) {
@@ -47,16 +62,46 @@ async function request(path, { timeout = READ_TIMEOUT_MS, ...init } = {}) {
     // FastAPI puts validation errors in `detail`, which is far more useful than
     // the bare status code — pull it out when it is there.
     let detail = ''
+    let structured = null
     try {
       const body = await resp.json()
-      detail = typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail)
+      structured = typeof body.detail === 'object' ? body.detail : null
+      detail = structured?.message || (typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail))
     } catch {
       /* non-JSON error body; the status alone will have to do */
     }
-    throw new ApiError(detail || `Request failed (HTTP ${resp.status}).`, resp.status)
+    if (resp.status >= 400 && resp.status < 500 && structured?.code !== 'processing') finishRetry(identity)
+    throw new ApiError(detail || `Request failed (HTTP ${resp.status}).`, resp.status, structured)
   }
 
-  return resp.json()
+  const result = await resp.json()
+  if (intake) {
+    if (cookieChoice() === 'accepted') rememberReceipt(result)
+    finishRetry(identity)
+  }
+  return result
+}
+
+let connecting
+export function getSubmissionSession() {
+  if (cookieChoice() !== 'accepted') return Promise.reject(new ApiError('Accept required cookies in Cookie settings before submitting a complaint.', 428, { code: 'consent_required' }))
+  if (!connecting) connecting = (async () => {
+    const options = { headers: { 'X-Submission-Consent': 'required' } }
+    let result = await request('/intake/session', options)
+    if (cookieChoice() !== 'accepted') throw new ApiError('Required cookies were declined.', 428)
+    if (!result.confirmed) result = await request('/intake/session', options)
+    if (cookieChoice() !== 'accepted') throw new ApiError('Required cookies were declined.', 428)
+    if (!result.confirmed) throw new ApiError('Enable site cookies to remember your daily allowance, then reconnect.', 428)
+    return result
+  })().finally(() => { connecting = null })
+  return connecting
+}
+
+export async function revokeSubmissionSession() {
+  // Let an already-started handshake finish before deleting its cookie.
+  // Otherwise its Set-Cookie could arrive after revocation.
+  if (connecting) await connecting.catch(() => {})
+  return request('/intake/session/revoke', { method: 'POST' })
 }
 
 /** Drops empty filters so `?state=` never reaches the API as a literal filter. */

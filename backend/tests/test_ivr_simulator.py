@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.browser_client import BrowserTestClient as TestClient
 from sqlalchemy import text
 
 from app.channels.ivr import IVRAdapter

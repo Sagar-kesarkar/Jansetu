@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom'
 import 'leaflet/dist/leaflet.css'
 
 import './styles/base.css'
+import './styles/submissions.css'
 import './styles/components.css'
 import './styles/tracking.css'
 import './styles/photo.css'

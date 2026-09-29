@@ -14,13 +14,16 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY backend/app ./app
-# Reference + synthetic data ships in the image so a fresh deploy has data on
-# first boot with no separate database provisioning step.
-COPY data ./data
+# Only application reference/demo assets belong in the image. Never copy uploads.
+COPY data/reference ./data/reference
+COPY data/synthetic ./data/synthetic
+COPY data/ivr_prompts ./data/ivr_prompts
 
-# Seed at build time: SQLite file is baked in, so cold starts are instant and
-# the free-tier container needs no writable volume.
-RUN python -m app.db.seed
+# Include migration tooling for controlled upgrades after storage is configured.
+COPY backend/alembic ./alembic
+COPY backend/alembic.ini ./alembic.ini
+# Do not bake a disposable SQLite database into a deployment image or connect to
+# the live database during builds. Provision storage and seed once at release time.
 
 EXPOSE 8080
 CMD exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT}

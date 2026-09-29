@@ -381,6 +381,10 @@ class IVRAdapter:
                         )
                         final_actions = post_actions
                     except Exception as exc:
+                        from fastapi import HTTPException
+                        from app.services.submission_guard import browser_context
+                        if browser_context.get() and isinstance(exc, HTTPException):
+                            raise
                         log.exception("IVR complaint registration failed: %s", exc)
                         fail_event = IngestFailureEvent(error=str(exc))
                         target_state = (

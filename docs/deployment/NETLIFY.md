@@ -2,7 +2,9 @@
 
 Repository: https://github.com/Sagar-kesarkar/Jansetu
 
-Backend hosting has not been selected. Netlify hosts only the two static React
+Render backend preparation is underway; see [release prerequisites](RENDER_NETLIFY_RELEASE.md).
+Commit and push approval for the validated release has now been given.
+Netlify hosts only the two static React
 websites; it does not run the FastAPI server or SQLite database.
 
 ## Citizen website

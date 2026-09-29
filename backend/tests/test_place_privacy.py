@@ -30,7 +30,7 @@ sounds like a building would silently coarsen half of rural India's addresses.
 from __future__ import annotations
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.browser_client import BrowserTestClient as TestClient
 from sqlalchemy import inspect
 
 from app.db.database import SessionLocal, engine, init_db

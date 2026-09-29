@@ -27,6 +27,7 @@ from app.routers import (
 )
 
 settings = get_settings()
+from app.services.browser_session import router as session_router, submission_boundary
 logging.basicConfig(level=settings.log_level)
 
 
@@ -64,6 +65,9 @@ app = FastAPI(
     ),
     lifespan=lifespan,
 )
+
+app.middleware('http')(submission_boundary)
+app.include_router(session_router)
 
 app.add_middleware(
     CORSMiddleware,

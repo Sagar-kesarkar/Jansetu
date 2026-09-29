@@ -592,7 +592,8 @@ class FundsService:
             if d.code in covered_district_codes:
                 covered_states.add(d.state)
                 covered_districts.add(d.name)
-            elif d.state_code in covered_state_codes:
+            elif (STATE_TO_CODE.get(d.state.lower()) in covered_state_codes
+                  or d.code.split('_', 1)[0] in covered_state_codes):
                 covered_states.add(d.state)
 
         return {
@@ -600,4 +601,3 @@ class FundsService:
             "covered_districts": sorted(list(covered_districts)),
             "covered_district_codes": sorted(list(covered_district_codes)),
         }
-

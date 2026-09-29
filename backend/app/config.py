@@ -2,6 +2,8 @@
 image runs locally and on Cloud Run without code changes."""
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
+from pydantic import Field
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -103,6 +105,11 @@ class Settings(BaseSettings):
     # services/privacy.py). Left empty, a random per-process value is used:
     # safe by default, at the cost of refs not being stable across restarts.
     citizen_ref_salt: str = ""
+    # Stable private secret required for anonymous browser quotas and cookies.
+    submission_secret: str = ""
+    daily_submission_limit: int = Field(default=6, ge=1, le=1000)
+    submission_cookie_secure: bool = False  # enable for HTTPS deployment
+    submission_cookie_samesite: Literal['lax', 'strict', 'none'] = "lax"
     ivr_prompt_dir: str = str(DATA_DIR / "ivr_prompts")
     # Where a citizen's photograph is retained so an officer can look at it.
     #

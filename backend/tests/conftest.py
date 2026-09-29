@@ -24,6 +24,7 @@ _TEST_DB.unlink(missing_ok=True)
 # Environment beats the .env file in pydantic-settings, so this wins over any
 # DATABASE_URL the developer has configured locally.
 os.environ["DATABASE_URL"] = f"sqlite:///{_TEST_DB.as_posix()}"
+os.environ['SUBMISSION_SECRET'] = 'test-only-submission-secret-not-for-production-1234'
 
 # Photographs go to a temp directory for the same reason the database does. The
 # suite uploads images, and `services/evidence.store` writes them: pointed at the
@@ -66,7 +67,7 @@ def _discard_test_database():
 
 @pytest.fixture
 def client():
-    from fastapi.testclient import TestClient
+    from tests.browser_client import BrowserTestClient as TestClient
     from app.main import app
     with TestClient(app) as test_client:
         yield test_client
@@ -81,4 +82,3 @@ def db_session():
         yield db
     finally:
         db.close()
-

@@ -19,7 +19,7 @@ filled with the English text.
 from __future__ import annotations
 
 import pytest
-from fastapi.testclient import TestClient
+from tests.browser_client import BrowserTestClient as TestClient
 
 from app.db.database import SessionLocal, init_db
 from app.db.models import CitizenRequest, District, InfraIndex, InvestmentPlan, RequestResponse
