@@ -45,6 +45,19 @@ import re
 from pathlib import Path
 
 from app.config import get_settings
+from app.db.database import Base, SessionLocal, engine
+from sqlalchemy import LargeBinary, String
+from sqlalchemy.orm import Mapped, mapped_column
+
+
+class EvidenceBlob(Base):
+    __tablename__ = 'evidence_blobs'
+    name: Mapped[str] = mapped_column(String(40), primary_key=True)
+    data: Mapped[bytes] = mapped_column(LargeBinary)
+
+
+def durable():
+    return engine.dialect.name == 'postgresql'
 
 log = logging.getLogger(__name__)
 
@@ -103,6 +116,11 @@ def store(token: str | None, data: bytes | None, mime: str) -> str | None:
         return None
 
     try:
+        if durable():
+            with SessionLocal() as db:
+                db.merge(EvidenceBlob(name=name, data=data))
+                db.commit()
+            return name
         (directory() / name).write_bytes(data)
     except OSError as exc:
         log.warning("Could not write photograph %s: %s", name, exc)
@@ -129,6 +147,13 @@ def resolve(name: str | None) -> Path | None:
     if root not in candidate.parents:
         log.warning("Refusing to serve %r: resolves outside the evidence directory", name)
         return None
+    if durable():
+        with SessionLocal() as db:
+            blob = db.get(EvidenceBlob, name)
+            if blob is None:
+                return None
+            directory()
+            candidate.write_bytes(blob.data)
     return candidate if candidate.is_file() else None
 
 
@@ -151,6 +176,17 @@ def purge(name: str | None) -> bool:
     closes" needs a function to be true, and adding it later alongside the endpoint
     that needs it is how a rule ends up documented but unimplemented.
     """
+    if durable():
+        if not name or not _SAFE_NAME.match(name):
+            return False
+        with SessionLocal() as db:
+            blob = db.get(EvidenceBlob, name)
+            if blob is None:
+                return False
+            db.delete(blob)
+            db.commit()
+        (directory() / name).unlink(missing_ok=True)
+        return True
     path = resolve(name)
     if path is None:
         return False

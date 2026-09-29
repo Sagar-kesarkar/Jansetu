@@ -17,7 +17,18 @@ log = logging.getLogger(__name__)
 settings = get_settings()
 
 connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
-engine = create_engine(settings.database_url, connect_args=connect_args, future=True)
+database_url = settings.database_url
+if database_url.startswith(('postgres://', 'postgresql://')):
+    database_url = 'postgresql+pg8000://' + database_url.split('://', 1)[1]
+if database_url.startswith('postgresql+pg8000://'):
+    import ssl
+    tls = ssl.create_default_context()
+    if settings.database_tls_mode == 'require':
+        # Opt-in for the Render private network, never an external default.
+        tls.check_hostname = False
+        tls.verify_mode = ssl.CERT_NONE
+    connect_args = {'ssl_context': tls}
+engine = create_engine(database_url, connect_args=connect_args, future=True, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 
@@ -35,6 +46,7 @@ def get_db() -> Generator[Session, None, None]:
 
 def init_db() -> None:
     from app.services import submission_guard  # noqa: F401 -- additive tables
+    from app.services import browser_ticket, evidence  # noqa: F401
     from app.db import models, financial_models  # noqa: F401  (registers tables)
     Base.metadata.create_all(bind=engine)
     _add_missing_columns()

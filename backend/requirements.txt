@@ -9,6 +9,7 @@ pydantic==2.13.4
 pydantic-settings==2.15.0
 python-multipart==0.0.32
 SQLAlchemy==2.0.52
+pg8000==1.31.5
 
 # Google AI — mandatory integration. google-genai talks to the Gemini API,
 # which has a free tier via an AI Studio key (no billing account needed).

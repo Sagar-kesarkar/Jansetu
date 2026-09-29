@@ -38,7 +38,8 @@ async function request(path, { timeout = READ_TIMEOUT_MS, ...init } = {}) {
   const simulation = path.startsWith('/ivr/sessions') || path === '/ivr/simulate'
   let identity
   if (intake || simulation) {
-    await getSubmissionSession()
+    const session = await getSubmissionSession()
+    if (session.ticket) init.headers = { ...init.headers, 'X-Submission-Ticket': session.ticket }
     if (intake) {
       identity = await retryIdentity(init.body)
       init.headers = { ...init.headers, 'Idempotency-Key': identity.key }
@@ -46,7 +47,8 @@ async function request(path, { timeout = READ_TIMEOUT_MS, ...init } = {}) {
   }
   let resp
   try {
-    resp = await fetch(`${API_BASE}${path}`, {
+    const base = path.startsWith('/intake/session') ? (import.meta.env.VITE_SESSION_BASE || API_BASE) : API_BASE
+    resp = await fetch(`${base}${path}`, {
       ...init,
       credentials: 'include',
       signal: AbortSignal.timeout(timeout),
@@ -86,7 +88,7 @@ let connecting
 export function getSubmissionSession() {
   if (cookieChoice() !== 'accepted') return Promise.reject(new ApiError('Accept required cookies in Cookie settings before submitting a complaint.', 428, { code: 'consent_required' }))
   if (!connecting) connecting = (async () => {
-    const options = { headers: { 'X-Submission-Consent': 'required' } }
+    const options = { headers: { 'X-Submission-Consent': 'required', 'X-Submission-Origin': window.location.origin } }
     let result = await request('/intake/session', options)
     if (cookieChoice() !== 'accepted') throw new ApiError('Required cookies were declined.', 428)
     if (!result.confirmed) result = await request('/intake/session', options)

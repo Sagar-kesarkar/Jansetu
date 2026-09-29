@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # keyless with Gemini disabled. Both locations are accepted; the repo-root
     # file is listed last so it wins.
     model_config = SettingsConfigDict(
-        env_file=(REPO_ROOT / "backend" / ".env", REPO_ROOT / ".env"),
+        env_file=(Path('/etc/secrets/jansetu.env'), REPO_ROOT / "backend" / ".env", REPO_ROOT / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
     )
@@ -95,6 +95,9 @@ class Settings(BaseSettings):
 
     # --- App & Public URLs ---
     database_url: str = "sqlite:///./jansetu.db"
+    # Render's private-network DB uses a self-signed TLS certificate. External
+    # connections retain normal certificate verification.
+    database_tls_mode: Literal['verify-full', 'require'] = 'verify-full'
     cors_origins: str = "http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174"
     log_level: str = "INFO"
     public_base_url: str = "http://localhost:8080"
