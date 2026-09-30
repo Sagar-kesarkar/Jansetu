@@ -66,6 +66,16 @@ def test_the_chain_starts_with_the_pinned_model(chain):
     assert chain[0] == get_settings().gemini_model
 
 
+def test_slow_model_escalation_stops_at_response_deadline(monkeypatch, chain):
+    import time
+    ticks = iter([0, 0, 41])
+    monkeypatch.setattr(time, 'monotonic', lambda: next(ticks))
+    models = _install(monkeypatch, {chain[0]: Exception('503 UNAVAILABLE')})
+    with pytest.raises(TimeoutError):
+        model_pool.generate('slow provider')
+    assert models.tried == [chain[0]]
+
+
 def test_the_chain_has_no_duplicates(chain):
     assert len(chain) == len(set(chain)), "a repeated model wastes a round trip on a known 429"
 

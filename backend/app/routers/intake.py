@@ -16,6 +16,7 @@ from typing import Any
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import PlainTextResponse
+from starlette.concurrency import run_in_threadpool
 from sqlalchemy.orm import Session
 
 from app.channels.whatsapp import parse_whatsapp_webhook, process_whatsapp_inbound
@@ -146,7 +147,7 @@ async def intake_report(
         language = decision.language or language
 
     try:
-        return ingest(
+        return await run_in_threadpool(ingest,
             db,
             text=text,
             audio=audio_bytes,
@@ -193,7 +194,7 @@ async def intake_voice(
         raise HTTPException(status_code=413, detail="Audio too large; send under 10 MB")
     image_bytes, image_mime = await _read_image(image)
     try:
-        return ingest(
+        return await run_in_threadpool(ingest,
             db,
             audio=data,
             audio_mime=audio.content_type or "audio/webm",

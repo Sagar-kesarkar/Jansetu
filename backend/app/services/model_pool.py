@@ -28,8 +28,8 @@ of dead air per report, on the one screen where latency is being judged. It
 resets when the process restarts, so tomorrow's run starts at the primary again
 and a temporary 503 does not permanently demote a good model.
 
-**It is not a retry-with-backoff.** The SDK already retries transient network
-faults inside a single model. This is escalation across models, and it deliberately
+**It is not a retry-with-backoff.** SDK retries are disabled and each network
+attempt has a timeout. Escalation across models has a bounded window and
 does not sleep: `RetryInfo` on a 429 asks for a 4-second wait, which is worth
 honouring in a batch job and not in front of an audience when six other buckets
 are full.
@@ -85,7 +85,9 @@ def client() -> Any | None:
         return None
     from google import genai
 
-    return genai.Client(api_key=settings.gemini_api_key)
+    from google.genai import types
+    return genai.Client(api_key=settings.gemini_api_key, http_options=types.HttpOptions(
+        timeout=20_000, retry_options=types.HttpRetryOptions(attempts=1)))
 
 
 def generate(contents: Any, config: dict | None = None) -> Any:
@@ -106,10 +108,14 @@ def generate(contents: Any, config: dict | None = None) -> Any:
         raise RuntimeError("No Gemini model configured")
 
     last: Exception | None = None
+    import time
+    deadline = time.monotonic() + 40
     # Start where the last escalation left us, then walk to the end. Rungs above
     # the cursor are skipped: they refused earlier in this process and asking
     # again costs a round trip to learn the same thing.
     for index in range(min(_cursor, len(chain) - 1), len(chain)):
+        if time.monotonic() >= deadline:
+            raise TimeoutError('AI response window ended; use the existing fallback')
         model = chain[index]
         try:
             resp = api.models.generate_content(model=model, contents=contents, config=config)
