@@ -40,4 +40,6 @@ def list_states(db: Session = Depends(get_db)) -> list[str]:
     """Distinct states, alphabetical. Cheap enough to be its own call, and it
     saves every client from downloading the district table to populate one
     dropdown."""
-    return [s for (s,) in db.query(District.state).distinct().order_by(func.lower(District.state)).all()]
+    # PostgreSQL requires DISTINCT order expressions to appear in the SELECT
+    # list. GROUP BY keeps the same unique, case-insensitively sorted labels.
+    return [s for (s,) in db.query(District.state).group_by(District.state).order_by(func.lower(District.state)).all()]
